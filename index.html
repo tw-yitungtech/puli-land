@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>埔里地政-地頭通，土地價值報恁知-有獎徵答趣味遊戲</title>
+<style>
+/* ============================================================
+ * 埔里地政知識挑戰 — 單檔示意版（真實照片 + RWD）
+ * 主色：日月潭湖水藍 + 山巒綠
+ * ⚠️ 題目為示意草稿，對外使用前請承辦同仁核對法令正確性。
+ * ============================================================ */
+:root{
+  --blue:#2f8fb8; --blue-dark:#1f6f92;
+  --green:#5aa469; --green-dark:#3f7e4f;
+  --sun:#ffbf3f; --ink:#22333c; --paper:#f6fbfd;
+  --ok:#2e9e5b; --no:#d9534f;
+  --glass:rgba(255,255,255,.9);
+  --shadow:0 12px 34px rgba(15,50,70,.28);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;color:var(--ink);background:#dff1fa;
+  overflow-x:hidden;
+  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;
+  -webkit-text-size-adjust:100%}
+button{font:inherit}
+img{max-width:100%;display:block}
+
+/* ---------- 畫面切換 ---------- */
+.screen{display:none;min-height:100vh;min-height:100svh;position:relative}
+.screen.is-active{display:block}
+
+/* ---------- 按鈕 ---------- */
+.btn{border:none;cursor:pointer;font-size:clamp(1rem,2.6vw,1.15rem);font-weight:700;
+  padding:.85rem clamp(1.4rem,5vw,2rem);border-radius:999px;min-height:48px;
+  transition:transform .12s ease,box-shadow .12s ease,background .2s}
+.btn:active{transform:translateY(2px)}
+.btn-primary{color:#fff;background:linear-gradient(180deg,var(--blue),var(--blue-dark));box-shadow:var(--shadow)}
+.btn-primary:hover{background:linear-gradient(180deg,#38a0cc,var(--blue-dark))}
+
+/* ===================== 歡迎頁 ===================== */
+#welcome{display:none;place-items:center;padding:clamp(1rem,4vw,3vh) 1rem;
+  background:
+    radial-gradient(circle at 20% 15%,#ffe9a8 0,transparent 40%),
+    radial-gradient(circle at 85% 80%,#a8e6cf 0,transparent 45%),
+    linear-gradient(160deg,#bfe9ff,#eaf8ff)}
+#welcome.is-active{display:grid}
+.welcome-card{width:min(640px,94vw);background:rgba(255,255,255,.92);
+  border-radius:28px;padding:clamp(1.5rem,5vw,2.4rem) clamp(1.2rem,4vw,2rem) 2rem;
+  box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(4px)}
+.badge{display:inline-block;background:var(--green);color:#fff;font-weight:700;
+  padding:.3rem 1rem;border-radius:999px;font-size:.95rem;letter-spacing:1px}
+.title{font-size:clamp(2rem,7vw,3.2rem);margin:.6rem 0 .2rem;line-height:1.2;color:var(--blue-dark)}
+.title .accent{color:var(--sun)}
+.subtitle{font-size:clamp(1rem,3vw,1.15rem);color:var(--green-dark);margin:.2rem 0 1.4rem;font-weight:600}
+.rules{text-align:left;background:var(--paper);border:2px dashed #b9dceb;
+  border-radius:18px;padding:clamp(.9rem,3vw,1.1rem) clamp(1rem,3vw,1.3rem);margin-bottom:1.6rem}
+.rules h2{margin:0 0 .6rem;font-size:1.15rem;color:var(--blue-dark)}
+.rules ul{margin:0;padding-left:1.1rem;line-height:1.9;font-size:clamp(.95rem,2.6vw,1.05rem)}
+.rules b{color:var(--blue-dark)}
+.disclaimer{margin:1rem 0 0;font-size:.85rem;color:#8aa0ab}
+
+/* ===================== 遊戲頁 ===================== */
+#game{overflow:hidden}
+.bg-photo{position:absolute;inset:0;z-index:0;background:#bfe9ff center/cover no-repeat;
+  transition:opacity .45s ease;opacity:1}
+.bg-scrim{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(10,40,60,0) 40%, rgba(10,40,60,.28) 100%),
+    linear-gradient(180deg, rgba(12,45,65,.34) 0%, rgba(12,45,65,.10) 26%, rgba(12,45,65,.30) 100%)}
+
+.hud{position:relative;z-index:3;display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:.5rem;padding:.85rem clamp(.9rem,3vw,1.4rem) .95rem;
+  background:rgba(20,70,95,.72);color:#fff;backdrop-filter:blur(8px)}
+.hud-left{font-size:clamp(1rem,3.4vw,1.3rem);font-weight:800;letter-spacing:1px}
+.hud-right{display:flex;gap:.5rem;flex-wrap:wrap}
+.hud-pill{background:rgba(255,255,255,.18);padding:.3rem .85rem;border-radius:999px;font-size:clamp(.8rem,2.4vw,.95rem)}
+.hud-pill b{color:var(--sun);font-size:1.1em}
+.progress{flex:1 1 100%;height:8px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),#ffd873);transition:width .4s ease}
+
+.stage{position:relative;z-index:2;display:grid;grid-template-columns:330px 1fr;
+  gap:clamp(1rem,2.5vw,1.4rem);padding:clamp(1rem,3vw,1.4rem);max-width:1120px;margin:0 auto}
+
+/* 玻璃卡片 */
+.map-panel,.quiz-card{background:var(--glass);backdrop-filter:blur(8px) saturate(1.08);
+  border:1px solid rgba(255,255,255,.65);border-radius:20px;box-shadow:var(--shadow)}
+
+/* 左：地圖 + 景點 */
+.map-panel{padding:1rem 1.1rem 1.2rem;align-self:start}
+.panel-title{margin:0 0 .25rem;text-align:center;color:var(--blue-dark);font-size:clamp(1rem,2.8vw,1.1rem)}
+.map-status{margin:0 0 .5rem;text-align:center;font-size:.78rem;color:#7a8b93}
+#map{width:100%;height:auto;display:block;min-height:190px}
+.region{fill:#cde7d3;stroke:#ffffff;stroke-width:2;transition:fill .3s ease;cursor:default}
+.region.active{fill:var(--sun);stroke:#e0a11f}
+.region-label{font-size:14px;font-weight:800;fill:var(--green-dark);text-anchor:middle;pointer-events:none;
+  paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:3px}
+.region-label.active{fill:#7a5200}
+
+.scenic{margin:1rem 0 0}
+.scenic-art{height:clamp(120px,20vw,150px);border-radius:14px;overflow:hidden;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.85), 0 4px 14px rgba(15,50,70,.18);background:#e8f5ec}
+.scenic-art img,.scenic-art svg{width:100%;height:100%;object-fit:cover;display:block}
+.scenic figcaption{margin-top:.55rem;text-align:center;font-size:clamp(.9rem,2.5vw,.98rem)}
+.scenic figcaption b{color:var(--blue-dark)}
+.scenic-area{display:inline-block;margin-left:.4rem;background:var(--green);color:#fff;
+  font-size:.8rem;padding:.1rem .6rem;border-radius:999px;vertical-align:1px}
+
+/* 右：題目 */
+.quiz-panel{align-self:start}
+.quiz-card{padding:clamp(1.2rem,3.5vw,1.6rem) clamp(1.2rem,3.5vw,1.6rem) 1.4rem}
+.q-tag{display:inline-block;margin:0 0 .6rem;background:#eaf6fb;color:var(--blue-dark);
+  font-weight:700;padding:.25rem .9rem;border-radius:999px;font-size:.9rem}
+.q-text{margin:0 0 1.1rem;font-size:clamp(1.15rem,2.7vw,1.4rem);line-height:1.6}
+.options{display:grid;gap:.65rem}
+.option{display:flex;align-items:center;gap:.8rem;text-align:left;background:#fff;
+  border:2px solid #d5e6ee;border-radius:14px;padding:clamp(.75rem,2vw,.9rem) 1rem;
+  font-size:clamp(1rem,2.5vw,1.12rem);color:var(--ink);cursor:pointer;min-height:52px;
+  transition:border-color .15s,background .15s,transform .1s}
+.option:hover:not(:disabled){border-color:var(--blue);background:#f2fafd}
+.option:active:not(:disabled){transform:scale(.99)}
+.option .num{flex:0 0 34px;height:34px;display:grid;place-items:center;
+  background:var(--blue);color:#fff;border-radius:50%;font-weight:800}
+.option:disabled{cursor:default;opacity:.95}
+.option.correct{border-color:var(--ok);background:#e6f8ee}
+.option.correct .num{background:var(--ok)}
+.option.wrong{border-color:var(--no);background:#fdecec}
+.option.wrong .num{background:var(--no)}
+
+/* 答對／答錯 彈出視窗（modal） */
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:1.2rem;
+  background:rgba(15,45,65,.5);backdrop-filter:blur(3px);animation:fade .2s ease}
+.modal[hidden]{display:none}
+.modal-card{width:min(440px,92vw);max-height:86vh;overflow:auto;background:#fff;border-radius:22px;
+  padding:1.5rem 1.4rem 1.4rem;text-align:center;
+  box-shadow:0 20px 50px rgba(10,35,55,.4);border-top:6px solid var(--blue);animation:pop .28s ease}
+.modal.ok .modal-card{border-top-color:var(--ok)}
+.modal.no .modal-card{border-top-color:var(--no)}
+.modal-icon{font-size:3rem;line-height:1}
+.modal-title{margin:.3rem 0 .2rem;font-size:clamp(1.3rem,4vw,1.5rem);font-weight:800}
+.modal.ok .modal-title{color:var(--ok)}
+.modal.no .modal-title{color:var(--no)}
+.modal-hint{margin:.2rem 0 1.2rem;font-size:.98rem;color:var(--ink);line-height:1.7;text-align:left}
+.modal.ok .modal-hint{text-align:center}
+@keyframes pop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ===================== 過關頁 ===================== */
+#result{place-items:center;padding:clamp(1.5rem,5vw,4vh) 1rem;
+  background:radial-gradient(circle at 50% 0%,#ffe9a8 0,transparent 45%),linear-gradient(160deg,#bfe9ff,#d8f5e2)}
+#result.is-active{display:grid}
+.result-card{width:min(560px,94vw);background:rgba(255,255,255,.95);border-radius:28px;
+  padding:clamp(1.8rem,5vw,2.6rem) clamp(1.2rem,4vw,2rem);text-align:center;box-shadow:var(--shadow)}
+.trophy{font-size:clamp(3.5rem,12vw,5rem);animation:bounce 1.2s ease infinite}
+.result-note{color:var(--green-dark);line-height:1.8;margin:.6rem 0 1.6rem}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ===================== RWD：手機（≤720px，撐滿整個螢幕高度，不留白、不捲動）
+ * 平板（>720px，如 iPad 768/820/1024）沿用桌機的左右兩欄並排版面 ===================== */
+@media(max-width:720px){
+  #game.is-active{height:100svh;display:flex;flex-direction:column;overflow:hidden}
+  .hud{flex:0 0 auto;padding:.7rem .8rem .8rem}
+  .hud-left{font-size:1.05rem;letter-spacing:.3px}
+  .hud-right{flex-wrap:wrap;justify-content:flex-end}
+  .hud-pill{padding:.25rem .65rem;font-size:.82rem}
+
+  .stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;
+    gap:.55rem;padding:.55rem;max-width:640px;width:100%;margin:0 auto}
+
+  /* 地圖與景點「上下堆疊」，上半卡片佔較大比例、地圖放大 */
+  .map-panel{flex:1.5 1 0;min-height:0;align-self:stretch;display:flex;flex-direction:column;
+    padding:.45rem .85rem .55rem}
+  .panel-title{margin:0;text-align:center}
+  .map-status{margin:0 0 .25rem}
+  #map{flex:1 1 auto;min-height:0;width:100%;height:auto;max-height:100%;align-self:center}
+  .scenic{flex:0 0 auto;margin:.35rem 0 0}
+  .scenic-art{height:10vh;min-height:82px}
+
+  /* 題目卡佔較小比例，選項平均分佈填滿 */
+  .quiz-panel{flex:1 1 0;min-height:0;align-self:stretch;display:flex}
+  .quiz-card{flex:1;display:flex;flex-direction:column;padding:.7rem 1rem}
+  .q-tag{margin-bottom:.35rem}
+  .q-text{margin:.1rem 0 .5rem;line-height:1.5}
+  .options{flex:1;display:flex;flex-direction:column;gap:.45rem}
+  .option{flex:1 1 0;min-height:42px;padding:.35rem .9rem}
+}
+@media(max-width:380px){
+  .hud-left{font-size:.95rem}
+  .q-text{font-size:1.05rem}
+  .scenic-art{height:12vh;min-height:78px}
+}
+/* 手機矮螢幕（可視高度 < 932px）：選項改 2×2，避免被遮住／裁切、也不需下滑 */
+@media(max-width:720px) and (max-height:931px){
+  .options{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:.45rem}
+  .option{min-height:0;padding:.35rem .7rem;font-size:1rem}
+  .option .num{flex:0 0 30px;height:30px}
+  .scenic-art{height:9vh;min-height:74px}   /* 矮螢幕再讓景點小一點，把空間留給地圖與選項 */
+}
+/* 更矮的手機螢幕（可視高度 < 720px）：再壓縮，確保四選項完整不被裁切 */
+@media(max-width:720px) and (max-height:719px){
+  .map-panel{flex:1.15 1 0}
+  .quiz-panel{flex:1 1 0}
+  .scenic-art{height:7vh;min-height:56px}   /* 景點縮成小條，把空間留給地圖與題目 */
+  .scenic figcaption{margin-top:.2rem;font-size:.85rem}
+  .q-text{margin:.1rem 0 .4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== 歡迎頁 ===================== -->
+<section id="welcome" class="screen is-active">
+  <div class="welcome-card">
+    <div class="badge">埔里地政事務所</div>
+    <h1 class="title">埔里地政<br>地頭通，土地價值報恁知<span class="accent">有獎徵答趣味遊戲</span></h1>
+    <p class="subtitle">遊山玩水，也一起認識地政小知識！</p>
+    <div class="rules">
+      <h2>玩法說明</h2>
+      <ul>
+        <li>🗺️ 跟著日月潭與埔里地政管轄的<b>四個轄區</b>（埔里鎮、魚池鄉、國姓鄉、仁愛鄉）一起闖關。</li>
+        <li>❓ 每一關會出現一題<b>地政 / 民法小常識</b>，共 4 個選項，選出正確答案。</li>
+        <li>✅ 答對就繼續前進；答錯別緊張，會給你一個小提示，再試一次！</li>
+        <li>🏆 累積<b>答對 5 題</b>，就可以順利過關囉！</li>
+      </ul>
+    </div>
+    <button id="startBtn" class="btn btn-primary">開始遊戲 ▶</button>
+    <p class="disclaimer">＊本頁為遊戲示意版，題目內容以現行法令為準。</p>
+  </div>
+</section>
+
+<!-- ===================== 遊戲頁 ===================== -->
+<section id="game" class="screen">
+  <div class="bg-photo" id="bgPhoto"></div>
+  <div class="bg-scrim"></div>
+
+  <header class="hud">
+    <div class="hud-left">埔里地政知識挑戰</div>
+    <div class="hud-right">
+      <span class="hud-pill">第 <b id="qIndex">1</b> 關</span>
+      <span class="hud-pill">答對 <b id="score">0</b> / 5 題</span>
+    </div>
+    <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
+  </header>
+
+  <div class="stage">
+    <aside class="map-panel">
+      <h3 class="panel-title">埔里地政 管轄四區</h3>
+      <p class="map-status" id="mapStatus">正在載入行政區圖資……</p>
+      <svg id="map" viewBox="0 0 300 300" role="img" aria-label="埔里地政管轄四區地圖"></svg>
+      <figure class="scenic">
+        <div id="scenicArt" class="scenic-art"></div>
+        <figcaption>本關景點：<b id="scenicName">日月潭</b><span id="scenicArea" class="scenic-area">魚池鄉</span></figcaption>
+      </figure>
+    </aside>
+
+    <main class="quiz-panel">
+      <div class="quiz-card">
+        <p class="q-tag">地政小常識</p>
+        <h2 id="questionText" class="q-text">題目載入中…</h2>
+        <div id="options" class="options"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 答對／答錯 彈出視窗 -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <div id="modalIcon" class="modal-icon">🎉</div>
+      <p id="modalTitle" class="modal-title"></p>
+      <p id="modalHint" class="modal-hint"></p>
+      <button id="modalBtn" class="btn btn-primary">下一關 ▶</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 過關頁 ===================== -->
+<section id="result" class="screen">
+  <div class="result-card">
+    <div class="trophy">🏆</div>
+    <h1 class="title">您過關囉！</h1>
+    <p class="subtitle">恭喜您答對 5 題，成功認識埔里地政小知識！</p>
+    <p class="result-note">歡迎有空來埔里、魚池、國姓、仁愛走走，<br>看看日月潭與在地美景 🌄</p>
+    <button id="replayBtn" class="btn btn-primary">再玩一次 ↻</button>
+  </div>
+</section>
+
+<script type="module">
+/* ---- 真實南投縣地圖圖資（只取埔里地政管轄四區）；載入失敗則退回手繪示意圖 ---- */
+const FOUR = ['埔里鎮','魚池鄉','國姓鄉','仁愛鄉'];
+let mapReady = false;
+try{
+  const d3 = await import('https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm');
+  const {feature} = await import('https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm');
+  const taiwan = (await import('https://cdn.jsdelivr.net/npm/taiwan-atlas@2021.9.20/towns-10t.json/+esm')).default;
+  const all = feature(taiwan, taiwan.objects.towns);
+  const sel = {type:'FeatureCollection', features: all.features.filter(
+    d => d.properties.COUNTYNAME==='南投縣' && FOUR.includes(d.properties.TOWNNAME))};
+  if(sel.features.length < 4) throw new Error('轄區圖資不足');
+  const svg = d3.select('#map');
+  const projection = d3.geoMercator().fitExtent([[16,16],[284,284]], sel);
+  const path = d3.geoPath(projection);
+  svg.selectAll('path').data(sel.features, d=>d.properties.TOWNNAME).join('path')
+    .attr('class','region').attr('data-town', d=>d.properties.TOWNNAME).attr('d', path)
+    .append('title').text(d=>d.properties.TOWNNAME);
+  svg.selectAll('text').data(sel.features, d=>d.properties.TOWNNAME).join('text')
+    .attr('class','region-label').attr('data-town', d=>d.properties.TOWNNAME)
+    .attr('x', d=>path.centroid(d)[0]).attr('y', d=>path.centroid(d)[1]).attr('dy','.35em')
+    .text(d=>d.properties.TOWNNAME);
+  document.getElementById('mapStatus').textContent = '答題時，對應轄區會亮起。';
+  mapReady = true;
+}catch(err){
+  drawFallbackMap();
+  document.getElementById('mapStatus').textContent = '（示意地圖）答題時對應轄區會亮起。';
+  console.warn('改用手繪示意地圖：', err);
+}
+function drawFallbackMap(){
+  document.getElementById('map').innerHTML = `
+    <polygon class="region" data-town="國姓鄉" points="20,30 150,20 150,140 40,150 15,90"/>
+    <polygon class="region" data-town="仁愛鄉" points="150,20 285,35 280,180 175,175 150,140"/>
+    <polygon class="region" data-town="埔里鎮" points="40,150 150,140 175,175 165,255 55,250"/>
+    <polygon class="region" data-town="魚池鄉" points="165,255 175,175 280,180 270,285 165,290"/>
+    <text class="region-label" data-town="國姓鄉" x="82" y="90">國姓鄉</text>
+    <text class="region-label" data-town="仁愛鄉" x="215" y="105">仁愛鄉</text>
+    <text class="region-label" data-town="埔里鎮" x="105" y="210">埔里鎮</text>
+    <text class="region-label" data-town="魚池鄉" x="218" y="238">魚池鄉</text>`;
+  mapReady = true;
+}
+
+/* ---- 手繪景點插圖（國姓/仁愛沒有照片時使用） ---- */
+const ART = {
+  糯米橋:`<svg viewBox="0 0 200 130" preserveAspectRatio="xMidYMid slice"><rect width="200" height="130" fill="#dff1fa"/><rect y="90" width="200" height="40" fill="#8fc6e6"/><path d="M10 90 Q100 30 190 90" fill="none" stroke="#a9855f" stroke-width="14"/><path d="M40 90 A40 40 0 0 1 90 90Z" fill="#dff1fa"/><path d="M110 90 A40 40 0 0 1 160 90Z" fill="#dff1fa"/><path d="M0 70 L40 55 L70 68 L100 50 L130 68 L170 55 L200 70 L200 60 L0 60Z" fill="#7bbd86" opacity="0.6"/></svg>`,
+  清境農場:`<svg viewBox="0 0 200 130" preserveAspectRatio="xMidYMid slice"><rect width="200" height="130" fill="#cdeaff"/><path d="M0 60 L60 30 L110 60 L160 25 L200 60 L200 130 L0 130Z" fill="#8fcf9a"/><path d="M0 85 L200 70 L200 130 L0 130Z" fill="#6bbd7c"/><ellipse cx="55" cy="100" rx="12" ry="9" fill="#fff"/><circle cx="47" cy="98" r="5" fill="#fff"/><ellipse cx="120" cy="110" rx="12" ry="9" fill="#fff"/><circle cx="112" cy="108" r="5" fill="#fff"/><circle cx="170" cy="30" r="12" fill="#ffe08a"/></svg>`,
+};
+
+/* ---- 依轄區切換的媒體（照片 / 手繪） ----
+ *  埔里鎮 → 埔里夜景圖.png
+ *  魚池鄉 → 日月潭.png / 魚池金龍山.png（兩張輪流）
+ *  國姓鄉 / 仁愛鄉 → 沿用手繪插圖 + 主題漸層背景
+ */
+const MEDIA = {
+  日月潭:   { type:'photo', src:'日月潭.png',     name:'日月潭',   area:'魚池鄉' },
+  金龍山:   { type:'photo', src:'魚池金龍山.png', name:'金龍山',   area:'魚池鄉' },
+  埔里夜景: { type:'photo', src:'埔里夜景圖.png', name:'埔里夜景', area:'埔里鎮' },
+  糯米橋:   { type:'art', art:ART.糯米橋,   name:'糯米橋',   area:'國姓鄉',
+              theme:'linear-gradient(160deg,#dff1fa,#bfe0c8)' },
+  清境農場: { type:'art', art:ART.清境農場, name:'清境農場', area:'仁愛鄉',
+              theme:'linear-gradient(160deg,#cdeaff,#a9d8b4)' },
+};
+
+/* ============================================================
+ * 題庫（示意草稿，法令內容請承辦同仁核對）
+ * ============================================================ */
+/* 28 題題庫（第 1~5 題宣導小知識為官方提供；第 6~28 題為查補，對外前請核對）
+ * note 欄位＝宣導小知識（僅於答錯時顯示） */
+const QUESTIONS = [
+  { question:"小明有一筆「農牧用地」，想在上面興建一間工廠，他認為「土地是自己的，應該可以自由使用」。請問這個想法是否正確？",
+    options:["正確，土地所有權人可以自由決定土地用途","正確，只要鄰居沒有反對即可","不正確，土地仍須依土地使用管制相關規定使用","正確，只要繳納相關稅金即可"], answer:3,
+    note:"土地雖然是自己的，但土地使用仍受到相關法令管制。非都市土地經劃定使用分區及編定使用地後，應依規定的容許使用項目使用，不能任意改變用途。" },
+  { question:"我們常聽到土地有「使用分區」及「使用地類別」，請問這些主要是為了什麼？",
+    options:["決定土地可以使用的方式及用途","決定土地所有人的身分","決定土地每年的房屋稅","決定土地所有人可以貸款多少錢"], answer:1,
+    note:"土地使用分區及使用地編定，是土地使用管制的重要基礎。例如非都市土地會依土地性質劃定不同使用分區，並編定不同使用地類別，以引導土地合理利用。" },
+  { question:"未來國土計畫依土地資源特性劃設「國土功能分區」，請問下列哪一項不是國土計畫法所稱的四大國土功能分區？",
+    options:["國土保育地區","農業發展地區","城鄉發展地區","工業發展地區"], answer:4,
+    note:"國土計畫法所定四大國土功能分區為：國土保育地區、海洋資源地區、農業發展地區、城鄉發展地區。" },
+  { question:"有人以為「國土計畫就是管農地」，這個說法正確嗎？",
+    options:["正確，國土計畫只管理農地","正確，國土計畫只管理山坡地","不正確，國土計畫是針對我國陸域及海域進行整體規劃","正確，國土計畫只管理沒有都市計畫的土地"], answer:3,
+    note:"《國土計畫法》所稱國土計畫，是針對我國陸域及海域，為達成國土永續發展所訂定的空間發展計畫，目的在兼顧生態保育、農業、生產及生活等需求。" },
+  { question:"民眾透過網路查到土地的國土功能分區資訊，想直接拿這份網路查詢結果向機關主張土地權利，請問下列何者正確？",
+    options:["可以，網路查詢結果就是正式證明文件","可以，只要把畫面截圖列印出來即可","不可以，相關圖資及查詢結果僅供參考，實際土地資料仍應以權責機關認定或正式文件為準","可以，只要查詢日期在一年內即可"], answer:3,
+    note:"內政部國土管理署的土地使用分區資料查詢系統提醒，網站圖資及分析結果僅供國土規劃作業參考，不得作為任何形式的證明或主張；實際土地資料仍應依地政機關認定內容或正式核發文件為準。" },
+  { question:"依照民法第 1138 條規定，親人過世時，除配偶外，誰是第一順位繼承人？",
+    options:["直系血親卑親屬（子女）","父母","兄弟姊妹","祖父母"], answer:1,
+    note:"依民法第 1138 條，遺產繼承人除配偶外，依順序為：第一順位直系血親卑親屬（如子女、孫子女），其次為父母、兄弟姊妹、祖父母。配偶則與各順位繼承人共同繼承。" },
+  { question:"未辦繼承登記的不動產，列冊管理幾年後會被辦理標售？",
+    options:["5 年","10 年","15 年","20 年"], answer:3,
+    note:"依土地法第 73 條之 1，繼承人未於繼承開始之日起 6 個月內辦理繼承登記者，由地政機關造冊列冊管理；自列冊管理之日起屆滿 15 年仍未辦理，得由國有財產署辦理公開標售，提醒繼承人及早辦理。" },
+  { question:"辦理建物所有權第一次登記會公告幾天？",
+    options:["5 天","10 天","15 天","20 天"], answer:3,
+    note:"依土地登記規則第 73 條，建物所有權第一次登記（建物保存登記）審查無誤後須公告，公告期間不得少於 15 日；公告期滿無人異議即完成登記。" },
+  { question:"外國人因繼承而取得我國林地者，應於辦理繼承登記完畢之日起幾年內出售給本國人？",
+    options:["1 年","3 年","5 年","7 年"], answer:2,
+    note:"依土地法第 17 條，林地等特定土地不得移轉予外國人。外國人若因繼承取得，應於辦理繼承登記完畢之日起 3 年內出售予本國人；逾期未售者由地政機關移請國有財產署公開標售。" },
+  { question:"登記完畢後發現登記錯誤或遺漏，經書面聲請上級機關查明核准後所為之登記，稱為何？",
+    options:["更名登記","更正登記","查封登記","預告登記"], answer:2,
+    note:"依土地法第 69 條，登記完畢後如發現登記錯誤或遺漏，須以書面聲請該管上級機關查明核准後才能辦理更正，這種登記稱為「更正登記」，以維護登記正確與交易安全。" },
+  { question:"基地出賣時，地上權人有依相同條件優先購買之權，但得於接到出賣通知後多少日內表示，否則優先權視為放棄？",
+    options:["10 天","20 天","30 天","60 天"], answer:1,
+    note:"依民法規定，基地出賣時，地上權人、典權人或承租人有以同樣條件優先購買之權；權利人於接到出賣通知後 10 日內未表示者，其優先購買權視為放棄。" },
+  { question:"民眾申請土地複丈（測量）並完成收件後，關於規費繳納的規定，下列何者正確？",
+    options:["可以在測量當天直接給測量人員現金","必須在申請案件時一併繳納","測量完成後如果結果滿意才需要補繳規費","只要提出申請，不論是否繳費，測量員都必須在三天內到場測量"], answer:2,
+    note:"依地籍測量實施規則，申請土地複丈應於申請並完成收件時一併繳納複丈費（規費），登記機關才會排定測量日期。" },
+  { question:"申請土地鑑界時，若鄰地關係人收到通知卻未到場，會有什麼影響？",
+    options:["測量作業必須停止，直到鄰地關係人到場為止","關係人屆時不到場者，得逕行複丈","申請人必須親自去強制拘提鄰地所有權人到場","該次鑑界結果將永久自動失效"], answer:2,
+    note:"依地籍測量實施規則，已通知的鄰地關係人屆時未到場者，複丈人員得逕行複丈，不會因關係人未到場而停止測量作業。" },
+  { question:"辦理土地鑑界時，關於「土地界標」的準備與埋設，下列何者正確？",
+    options:["申請人可自行購買界標，並依自己認定之界址點位置埋設","複丈人員實地測定界址點位置後，應協助申請人埋設界標","可以隨便拿現場的石頭或樹枝當作永久界標","界標只需畫在地面上記號即可，不需任何實體標釘"], answer:2,
+    note:"依地籍測量實施規則，複丈人員實地測定所需界址點位置後，界標由申請人自備，並由複丈人員協助埋設；不可隨意以石頭、樹枝或畫記號代替界標。" },
+  { question:"民眾對地政事務所辦理的土地鑑界結果有疑義時，正確的處理方式為何？",
+    options:["當場與測量人員發生肢體衝突","得於收到複丈結果通知書後，繳納規費申請「再鑑界」","直接向警察局報案要求逮捕測量人員","鑑界結果為最終決定，法律規定絕對不得提出任何異議"], answer:2,
+    note:"依地籍測量實施規則，對鑑界（複丈）結果有疑義者，得於收到複丈結果通知書後一定期間內繳納規費申請「再鑑界」，並由不同測量人員辦理，以昭公信。" },
+  { question:"若經過「再鑑界」後，土地所有權人對測量結果仍有爭議，應透過何種管道解決？",
+    options:["向地政事務所申請第三次、第四次無限次鑑界","應訴請法院裁判或以訴訟外紛爭解決機制處理，登記機關不得受理其第三次鑑界之申請","找當地村里長直接變更地籍圖","私自將鄰居的圍牆拆除"], answer:2,
+    note:"依地籍測量實施規則，經再鑑界後仍有爭議者，應循司法途徑訴請法院裁判（或以訴訟外紛爭解決機制處理），登記機關不得受理其第三次鑑界之申請。" },
+  { question:"關於土地複丈撤回的相關規定，下列敘述何者「正確」？",
+    options:["土地鑑界之撤回必須於複丈日期前 3 日撤回","土地複丈於複丈日期前撤回仍須扣除勞務支出至少 300 元","土地複丈案件撤回須以書面向登記機關申請","以上皆是"], answer:4,
+    note:"依地籍測量實施規則，土地複丈（含鑑界）之撤回應以書面向登記機關申請，鑑界須於複丈日期前 3 日撤回，且已進行之勞務仍須負擔部分費用，故上述規定均正確。" },
+  { question:"以下哪些項目可至內政部地政司「數位櫃台」線上申請？",
+    options:["土地鑑界（限非再鑑界者）","土地分割（限同一所有權人且無他項權利者）","土地合併（限同一所有權人且無他項權利者）","以上皆是"], answer:4,
+    note:"內政部地政司「數位櫃台」提供多項地政業務線上申辦，包括土地鑑界（限非再鑑界者）、土地分割與合併（限同一所有權人且無他項權利者）等，民眾可免臨櫃、線上申請。" },
+  { question:"自 110 年 7 月 1 日起，實價登錄資訊查詢服務網提供之門牌資訊為何？",
+    options:["區段化之區間門牌","隱藏所有數字資訊","完整揭露詳細門牌（地號）","僅揭露行政區而不提供門牌"], answer:3,
+    note:"實價登錄 2.0 自 110 年 7 月 1 日起，成交案件的門牌與地號改採完整揭露，提高交易資訊透明度，讓民眾查價更精準。" },
+  { question:"下列哪一項屬於「價格以外資訊」，若申報不實且屆期未改正會被處以較輕的罰鍰？",
+    options:["交易總價","土地面積","車位總價","建物格局（如房、廳、衛數）"], answer:4,
+    note:"實價登錄申報中，「價格以外資訊」（例如建物格局房、廳、衛數）申報不實且屆期未改正者，處以較輕罰鍰；與價格有關的資訊申報不實，則處較重罰鍰。" },
+  { question:"預售屋買賣契約簽訂後，買受人原則上不得讓與或轉售，但下列何種關係之讓與不在此限？",
+    options:["具備多年友誼之友人","具備合作關係之商業夥伴","配偶、直系血親或二親等內旁系血親","曾有債權債務關係之債權人"], answer:3,
+    note:"依平均地權條例，預售屋買賣契約原則上不得讓與或轉售他人，但配偶、直系血親或二親等內旁系血親之間的讓與不在此限，以兼顧家庭實際需要。" },
+  { question:"在買賣案件申報不實的裁處中，若同一案件含有「建物」，處罰基準為何？",
+    options:["按土地筆數處罰","按契約份數處罰","按交易總金額比例處罰","按建物戶（棟）數處罰"], answer:4,
+    note:"實價登錄申報不實的裁罰，若同一案件含有「建物」，係按建物戶（棟）數作為處罰基準計算，而非按土地筆數或契約份數。" },
+  { question:"預售屋銷售前需報請備查的內容，不包括下列哪一項？",
+    options:["預售屋買賣定型化契約","銷售地點、期間及戶數","建案名稱及坐落基地","買受人的薪資證明文件"], answer:4,
+    note:"依平均地權條例，預售屋銷售前應報請主管機關備查的內容包括買賣定型化契約、銷售地點期間戶數、建案名稱及坐落基地等，不包括買受人的薪資證明等個人財務資料。" },
+  { question:"若包租業將租賃住宅「轉租」成交，應在何時申報成交實際資訊？",
+    options:["簽訂轉租契約之日起 30 日內","每季彙整申報一次","年度所得稅申報時一併列報","房客實際入住當日"], answer:1,
+    note:"依租賃住宅市場發展及管理條例，包租業將租賃住宅「轉租」成交者，應於簽訂轉租契約之日起 30 日內申報成交的實際資訊（實價登錄）。" },
+  { question:"預售屋買賣契約「解除」後，應在幾日內申報解約登錄資訊？",
+    options:["30 日內","7 日內","15 日內","60 日內"], answer:1,
+    note:"依平均地權條例，預售屋買賣契約「解除」後，銷售者應於 30 日內申報解約的登錄資訊，確保實價登錄資料即時更新。" },
+  { question:"關於不動產租賃案件的申報義務人，下列敘述何者正確？",
+    options:["只要有租賃行為，房東就一定要申報","委由不動產經紀業（房仲）居間或代理成交者，由該經紀業申報","房客為了申請租金補貼，必須自行申報","房東與房客自行簽約成交者，由房東申報"], answer:2,
+    note:"不動產成交案件實價登錄，若委由不動產經紀業（房仲）居間或代理成交者，由該經紀業負責申報；房東與房客自行成交的一般住宅租賃，現行則多不需申報。" },
+  { question:"下列哪一種租賃案件「不需要」申報實價登錄？",
+    options:["透過房仲居間成交的住宅租賃案件","租賃住宅包租業簽訂的轉租契約案件","房東與房客自行簽約，未經過房仲仲介的案件","社會住宅包租代管的承租與轉租案件"], answer:3,
+    note:"現行實價登錄規定，房東與房客「自行簽約、未經房仲仲介」的一般住宅租賃案件不需申報；但透過房仲居間、包租業轉租、社會住宅包租代管等案件則須申報。" },
+  { question:"現行制度下，買賣成交案件實際資訊的申報義務人是誰？",
+    options:["買方（權利人）獨自申報","賣方（義務人）獨自申報","地政士或不動產經紀業者優先申報","買方與賣方共同申報"], answer:4,
+    note:"實價登錄 2.0 起，買賣成交案件的實際資訊改由買賣雙方（權利人與義務人）共同申報；若有委任地政士或不動產經紀業者，亦可由其協助辦理申報。" },
+];
+
+/* ============================================================
+ * 遊戲邏輯
+ * ============================================================ */
+const GOAL = 5;
+const $ = s => document.getElementById(s);
+const screens = { welcome:$('welcome'), game:$('game'), result:$('result') };
+const bgPhoto = $('bgPhoto');
+
+let queue = [], pos = 0, score = 0;
+
+function showScreen(name){
+  Object.values(screens).forEach(s=>s.classList.remove('is-active'));
+  screens[name].classList.add('is-active');
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+// 每局從 28 題隨機抽 5 題；再隨機配 5 種景點（每題景點不同、每局涵蓋 5 種）
+const PICS = ['日月潭','金龍山','埔里夜景','糯米橋','清境農場'];
+function startGame(){
+  const picks = shuffle(PICS);
+  queue = shuffle(QUESTIONS).slice(0, GOAL).map((q, i) => ({ ...q, pic: picks[i % picks.length] }));
+  pos = 0; score = 0;
+  showScreen('game'); renderQuestion();
+}
+
+/* 依媒體設定背景層（照片或主題漸層），並淡入 */
+function setBackground(cssImage){
+  bgPhoto.style.opacity = '0';
+  setTimeout(()=>{ bgPhoto.style.backgroundImage = cssImage; bgPhoto.style.opacity = '1'; }, 140);
+}
+
+function renderQuestion(){
+  const q = queue[pos % queue.length];
+  $('qIndex').textContent = score + 1;
+  $('score').textContent = score;
+  $('progressBar').style.width = (score/GOAL)*100 + '%';
+
+  // 依題目綁定的景點切換背景與縮圖（每題不同）
+  const media = MEDIA[q.pic];
+  if(media.type === 'photo'){
+    const url = `url("${encodeURI(media.src)}")`;
+    setBackground(url);
+    $('scenicArt').innerHTML = `<img src="${encodeURI(media.src)}" alt="${media.area}景點">`;
+  }else{
+    setBackground(media.theme || 'linear-gradient(160deg,#bfe9ff,#eaf8ff)');
+    $('scenicArt').innerHTML = media.art;
+  }
+  $('scenicName').textContent = media.name;
+  $('scenicArea').textContent = media.area;
+  highlightRegion(media.area);
+
+  $('questionText').textContent = q.question;
+  const opts = $('options'); opts.innerHTML = '';
+  q.options.forEach((text,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="num">${i+1}</span><span>${text}</span>`;
+    btn.addEventListener('click', ()=>handleAnswer(btn, i+1, q));
+    opts.appendChild(btn);
+  });
+  closeModal();
+}
+function highlightRegion(area){
+  document.querySelectorAll('.region, .region-label').forEach(r=>r.classList.remove('active'));
+  document.querySelectorAll(`[data-town="${area}"]`).forEach(r=>r.classList.add('active'));
+}
+function handleAnswer(btn, choice, q){
+  if(choice === q.answer){
+    btn.classList.add('correct');
+    document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+    score++; $('score').textContent = score;
+    $('progressBar').style.width = (score/GOAL)*100 + '%';
+    const last = score >= GOAL;
+    openModal(true, '🎉', '恭喜您答對！',
+      last ? '答對 5 題，順利過關！' : '做得好，準備進入下一關！',
+      last ? '看看結果 ▶' : '下一關 ▶', next);
+  }else{
+    btn.classList.add('wrong'); btn.disabled = true;
+    openModal(false, '😅', '你答錯囉！', '宣導小知識：' + q.note, '再試一次', closeModal);
+  }
+}
+function openModal(ok, icon, title, hint, btnText, onBtn){
+  const m = $('modal');
+  m.hidden = false;
+  m.classList.toggle('ok', ok); m.classList.toggle('no', !ok);
+  $('modalIcon').textContent = icon;
+  $('modalTitle').textContent = title;
+  $('modalHint').textContent = hint;
+  const b = $('modalBtn');
+  b.textContent = btnText;
+  b.onclick = onBtn;
+}
+function closeModal(){ $('modal').hidden = true; }
+function next(){
+  closeModal();
+  if(score >= GOAL){ showScreen('result'); return; }
+  pos++; renderQuestion();
+}
+
+$('startBtn').addEventListener('click', startGame);
+$('replayBtn').addEventListener('click', startGame);
+
+showScreen('welcome');
+</script>
+</body>
+</html>
