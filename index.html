@@ -1,210 +1,777 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>埔里地政-地頭通，土地價值報恁知-有獎徵答趣味遊戲</title>
-<style>
-/* ============================================================
- * 埔里地政知識挑戰 — 單檔示意版（真實照片 + RWD）
- * 主色：日月潭湖水藍 + 山巒綠
- * ⚠️ 題目為示意草稿，對外使用前請承辦同仁核對法令正確性。
- * ============================================================ */
-:root{
-  --blue:#2f8fb8; --blue-dark:#1f6f92;
-  --green:#5aa469; --green-dark:#3f7e4f;
-  --sun:#ffbf3f; --ink:#22333c; --paper:#f6fbfd;
-  --ok:#2e9e5b; --no:#d9534f;
-  --glass:rgba(255,255,255,.9);
-  --shadow:0 12px 34px rgba(15,50,70,.28);
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;color:var(--ink);background:#dff1fa;
-  overflow-x:hidden;
-  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;
-  -webkit-text-size-adjust:100%}
-button{font:inherit}
-img{max-width:100%;display:block}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <title>埔里地政-地頭通，土地價值報恁知-有獎徵答趣味遊戲</title>
+    <style>
+               /* ============================================================
+        * 埔里地政知識挑戰 — 單檔示意版（真實照片 + RWD）
+        * 主色：日月潭湖水藍 + 山巒綠
+        * ⚠️ 題目為示意草稿，對外使用前請承辦同仁核對法令正確性。
+        * ============================================================ */
+               :root {
+                   --blue: #2f8fb8;
+                   --blue-dark: #1f6f92;
+                   --green: #5aa469;
+                   --green-dark: #3f7e4f;
+                   --sun: #ffbf3f;
+                   --ink: #22333c;
+                   --paper: #f6fbfd;
+                   --ok: #2e9e5b;
+                   --no: #d9534f;
+                   --glass: rgba(255,255,255,.9);
+                   --shadow: 0 12px 34px rgba(15,50,70,.28);
+               }
 
-/* ---------- 畫面切換 ---------- */
-.screen{display:none;min-height:100vh;min-height:100svh;position:relative}
-.screen.is-active{display:block}
+               * {
+                   box-sizing: border-box
+               }
 
-/* ---------- 按鈕 ---------- */
-.btn{border:none;cursor:pointer;font-size:clamp(1rem,2.6vw,1.15rem);font-weight:700;
-  padding:.85rem clamp(1.4rem,5vw,2rem);border-radius:999px;min-height:48px;
-  transition:transform .12s ease,box-shadow .12s ease,background .2s}
-.btn:active{transform:translateY(2px)}
-.btn-primary{color:#fff;background:linear-gradient(180deg,var(--blue),var(--blue-dark));box-shadow:var(--shadow)}
-.btn-primary:hover{background:linear-gradient(180deg,#38a0cc,var(--blue-dark))}
+               html, body {
+                   margin: 0;
+                   min-height: 100%;
+                   color: var(--ink);
+                   background: #dff1fa;
+                   overflow-x: hidden;
+                   font-family: "Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;
+                   -webkit-text-size-adjust: 100%
+               }
 
-/* ===================== 歡迎頁 ===================== */
-#welcome{display:none;place-items:center;padding:clamp(1rem,4vw,3vh) 1rem;
-  background:
-    radial-gradient(circle at 20% 15%,#ffe9a8 0,transparent 40%),
-    radial-gradient(circle at 85% 80%,#a8e6cf 0,transparent 45%),
-    linear-gradient(160deg,#bfe9ff,#eaf8ff)}
-#welcome.is-active{display:grid}
-.welcome-card{width:min(640px,94vw);background:rgba(255,255,255,.92);
-  border-radius:28px;padding:clamp(1.5rem,5vw,2.4rem) clamp(1.2rem,4vw,2rem) 2rem;
-  box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(4px)}
-.badge{display:inline-block;background:var(--green);color:#fff;font-weight:700;
-  padding:.3rem 1rem;border-radius:999px;font-size:.95rem;letter-spacing:1px}
-.title{font-size:clamp(2rem,7vw,3.2rem);margin:.6rem 0 .2rem;line-height:1.2;color:var(--blue-dark)}
-.title .accent{color:var(--sun)}
-.subtitle{font-size:clamp(1rem,3vw,1.15rem);color:var(--green-dark);margin:.2rem 0 1.4rem;font-weight:600}
-.rules{text-align:left;background:var(--paper);border:2px dashed #b9dceb;
-  border-radius:18px;padding:clamp(.9rem,3vw,1.1rem) clamp(1rem,3vw,1.3rem);margin-bottom:1.6rem}
-.rules h2{margin:0 0 .6rem;font-size:1.15rem;color:var(--blue-dark)}
-.rules ul{margin:0;padding-left:1.1rem;line-height:1.9;font-size:clamp(.95rem,2.6vw,1.05rem)}
-.rules b{color:var(--blue-dark)}
-.disclaimer{margin:1rem 0 0;font-size:.85rem;color:#8aa0ab}
+               button {
+                   font: inherit
+               }
 
-/* ===================== 遊戲頁 ===================== */
-#game{overflow:hidden}
-.bg-photo{position:absolute;inset:0;z-index:0;background:#bfe9ff center/cover no-repeat;
-  transition:opacity .45s ease;opacity:1}
-.bg-scrim{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(120% 90% at 50% -10%, rgba(10,40,60,0) 40%, rgba(10,40,60,.28) 100%),
-    linear-gradient(180deg, rgba(12,45,65,.34) 0%, rgba(12,45,65,.10) 26%, rgba(12,45,65,.30) 100%)}
+               img {
+                   max-width: 100%;
+                   display: block
+               }
 
-.hud{position:relative;z-index:3;display:flex;flex-wrap:wrap;align-items:center;
-  justify-content:space-between;gap:.5rem;padding:.85rem clamp(.9rem,3vw,1.4rem) .95rem;
-  background:rgba(20,70,95,.72);color:#fff;backdrop-filter:blur(8px)}
-.hud-left{font-size:clamp(1rem,3.4vw,1.3rem);font-weight:800;letter-spacing:1px}
-.hud-right{display:flex;gap:.5rem;flex-wrap:wrap}
-.hud-pill{background:rgba(255,255,255,.18);padding:.3rem .85rem;border-radius:999px;font-size:clamp(.8rem,2.4vw,.95rem)}
-.hud-pill b{color:var(--sun);font-size:1.1em}
-.progress{flex:1 1 100%;height:8px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--sun),#ffd873);transition:width .4s ease}
+               /* ---------- 畫面切換 ---------- */
+               .screen {
+                   display: none;
+                   min-height: 100vh;
+                   min-height: 100svh;
+                   position: relative
+               }
 
-.stage{position:relative;z-index:2;display:grid;grid-template-columns:330px 1fr;
-  gap:clamp(1rem,2.5vw,1.4rem);padding:clamp(1rem,3vw,1.4rem);max-width:1120px;margin:0 auto}
+                   .screen.is-active {
+                       display: block
+                   }
 
-/* 玻璃卡片 */
-.map-panel,.quiz-card{background:var(--glass);backdrop-filter:blur(8px) saturate(1.08);
-  border:1px solid rgba(255,255,255,.65);border-radius:20px;box-shadow:var(--shadow)}
+               /* ---------- 按鈕 ---------- */
+               .btn {
+                   border: none;
+                   cursor: pointer;
+                   font-size: clamp(1rem,2.6vw,1.15rem);
+                   font-weight: 700;
+                   padding: .85rem clamp(1.4rem,5vw,2rem);
+                   border-radius: 999px;
+                   min-height: 48px;
+                   transition: transform .12s ease,box-shadow .12s ease,background .2s
+               }
 
-/* 左：地圖 + 景點 */
-.map-panel{padding:1rem 1.1rem 1.2rem;align-self:start}
-.panel-title{margin:0 0 .25rem;text-align:center;color:var(--blue-dark);font-size:clamp(1rem,2.8vw,1.1rem)}
-.map-status{margin:0 0 .5rem;text-align:center;font-size:.78rem;color:#7a8b93}
-#map{width:100%;height:auto;display:block;min-height:190px}
-.region{fill:#cde7d3;stroke:#ffffff;stroke-width:2;transition:fill .3s ease;cursor:default}
-.region.active{fill:var(--sun);stroke:#e0a11f}
-.region-label{font-size:14px;font-weight:800;fill:var(--green-dark);text-anchor:middle;pointer-events:none;
-  paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:3px}
-.region-label.active{fill:#7a5200}
+                   .btn:active {
+                       transform: translateY(2px)
+                   }
 
-.scenic{margin:1rem 0 0}
-.scenic-art{height:clamp(120px,20vw,150px);border-radius:14px;overflow:hidden;
-  box-shadow:inset 0 0 0 3px rgba(255,255,255,.85), 0 4px 14px rgba(15,50,70,.18);background:#e8f5ec}
-.scenic-art img,.scenic-art svg{width:100%;height:100%;object-fit:cover;display:block}
-.scenic figcaption{margin-top:.55rem;text-align:center;font-size:clamp(.9rem,2.5vw,.98rem)}
-.scenic figcaption b{color:var(--blue-dark)}
-.scenic-area{display:inline-block;margin-left:.4rem;background:var(--green);color:#fff;
-  font-size:.8rem;padding:.1rem .6rem;border-radius:999px;vertical-align:1px}
+               .btn-primary {
+                   color: #fff;
+                   background: linear-gradient(180deg,var(--blue),var(--blue-dark));
+                   box-shadow: var(--shadow)
+               }
 
-/* 右：題目 */
-.quiz-panel{align-self:start}
-.quiz-card{padding:clamp(1.2rem,3.5vw,1.6rem) clamp(1.2rem,3.5vw,1.6rem) 1.4rem}
-.q-tag{display:inline-block;margin:0 0 .6rem;background:#eaf6fb;color:var(--blue-dark);
-  font-weight:700;padding:.25rem .9rem;border-radius:999px;font-size:.9rem}
-.q-text{margin:0 0 1.1rem;font-size:clamp(1.15rem,2.7vw,1.4rem);line-height:1.6}
-.options{display:grid;gap:.65rem}
-.option{display:flex;align-items:center;gap:.8rem;text-align:left;background:#fff;
-  border:2px solid #d5e6ee;border-radius:14px;padding:clamp(.75rem,2vw,.9rem) 1rem;
-  font-size:clamp(1rem,2.5vw,1.12rem);color:var(--ink);cursor:pointer;min-height:52px;
-  transition:border-color .15s,background .15s,transform .1s}
-.option:hover:not(:disabled){border-color:var(--blue);background:#f2fafd}
-.option:active:not(:disabled){transform:scale(.99)}
-.option .num{flex:0 0 34px;height:34px;display:grid;place-items:center;
-  background:var(--blue);color:#fff;border-radius:50%;font-weight:800}
-.option:disabled{cursor:default;opacity:.95}
-.option.correct{border-color:var(--ok);background:#e6f8ee}
-.option.correct .num{background:var(--ok)}
-.option.wrong{border-color:var(--no);background:#fdecec}
-.option.wrong .num{background:var(--no)}
+                   .btn-primary:hover {
+                       background: linear-gradient(180deg,#38a0cc,var(--blue-dark))
+                   }
 
-/* 答對／答錯 彈出視窗（modal） */
-.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:1.2rem;
-  background:rgba(15,45,65,.5);backdrop-filter:blur(3px);animation:fade .2s ease}
-.modal[hidden]{display:none}
-.modal-card{width:min(440px,92vw);max-height:86vh;overflow:auto;background:#fff;border-radius:22px;
-  padding:1.5rem 1.4rem 1.4rem;text-align:center;
-  box-shadow:0 20px 50px rgba(10,35,55,.4);border-top:6px solid var(--blue);animation:pop .28s ease}
-.modal.ok .modal-card{border-top-color:var(--ok)}
-.modal.no .modal-card{border-top-color:var(--no)}
-.modal-icon{font-size:3rem;line-height:1}
-.modal-title{margin:.3rem 0 .2rem;font-size:clamp(1.3rem,4vw,1.5rem);font-weight:800}
-.modal.ok .modal-title{color:var(--ok)}
-.modal.no .modal-title{color:var(--no)}
-.modal-hint{margin:.2rem 0 1.2rem;font-size:.98rem;color:var(--ink);line-height:1.7;text-align:left}
-.modal.ok .modal-hint{text-align:center}
-@keyframes pop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
+               /* ===================== 歡迎頁 ===================== */
+               #welcome {
+                   display: none;
+                   place-items: center;
+                   padding: clamp(1rem,4vw,3vh) 1rem;
+                   background: radial-gradient(circle at 20% 15%,#ffe9a8 0,transparent 40%), radial-gradient(circle at 85% 80%,#a8e6cf 0,transparent 45%), linear-gradient(160deg,#bfe9ff,#eaf8ff)
+               }
 
-/* ===================== 過關頁 ===================== */
-#result{place-items:center;padding:clamp(1.5rem,5vw,4vh) 1rem;
-  background:radial-gradient(circle at 50% 0%,#ffe9a8 0,transparent 45%),linear-gradient(160deg,#bfe9ff,#d8f5e2)}
-#result.is-active{display:grid}
-.result-card{width:min(560px,94vw);background:rgba(255,255,255,.95);border-radius:28px;
-  padding:clamp(1.8rem,5vw,2.6rem) clamp(1.2rem,4vw,2rem);text-align:center;box-shadow:var(--shadow)}
-.trophy{font-size:clamp(3.5rem,12vw,5rem);animation:bounce 1.2s ease infinite}
-.result-note{color:var(--green-dark);line-height:1.8;margin:.6rem 0 1.6rem}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+                   #welcome.is-active {
+                       display: grid
+                   }
 
-/* ===================== RWD：手機（≤720px，撐滿整個螢幕高度，不留白、不捲動）
- * 平板（>720px，如 iPad 768/820/1024）沿用桌機的左右兩欄並排版面 ===================== */
-@media(max-width:720px){
-  #game.is-active{height:100svh;display:flex;flex-direction:column;overflow:hidden}
-  .hud{flex:0 0 auto;padding:.7rem .8rem .8rem}
-  .hud-left{font-size:1.05rem;letter-spacing:.3px}
-  .hud-right{flex-wrap:wrap;justify-content:flex-end}
-  .hud-pill{padding:.25rem .65rem;font-size:.82rem}
+               .welcome-card {
+                   width: min(640px,94vw);
+                   background: rgba(255,255,255,.92);
+                   border-radius: 28px;
+                   padding: clamp(1.5rem,5vw,2.4rem) clamp(1.2rem,4vw,2rem) 2rem;
+                   box-shadow: var(--shadow);
+                   text-align: center;
+                   backdrop-filter: blur(4px)
+               }
 
-  .stage{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;
-    gap:.55rem;padding:.55rem;max-width:640px;width:100%;margin:0 auto}
+               .badge {
+                   display: inline-block;
+                   background: var(--green);
+                   color: #fff;
+                   font-weight: 700;
+                   padding: .3rem 1rem;
+                   border-radius: 999px;
+                   font-size: .95rem;
+                   letter-spacing: 1px
+               }
 
-  /* 地圖與景點「上下堆疊」，上半卡片佔較大比例、地圖放大 */
-  .map-panel{flex:1.5 1 0;min-height:0;align-self:stretch;display:flex;flex-direction:column;
-    padding:.45rem .85rem .55rem}
-  .panel-title{margin:0;text-align:center}
-  .map-status{margin:0 0 .25rem}
-  #map{flex:1 1 auto;min-height:0;width:100%;height:auto;max-height:100%;align-self:center}
-  .scenic{flex:0 0 auto;margin:.35rem 0 0}
-  .scenic-art{height:10vh;min-height:82px}
+               .title {
+                   font-size: clamp(2rem,7vw,3.2rem);
+                   margin: .6rem 0 .2rem;
+                   line-height: 1.2;
+                   color: var(--blue-dark)
+               }
 
-  /* 題目卡佔較小比例，選項平均分佈填滿 */
-  .quiz-panel{flex:1 1 0;min-height:0;align-self:stretch;display:flex}
-  .quiz-card{flex:1;display:flex;flex-direction:column;padding:.7rem 1rem}
-  .q-tag{margin-bottom:.35rem}
-  .q-text{margin:.1rem 0 .5rem;line-height:1.5}
-  .options{flex:1;display:flex;flex-direction:column;gap:.45rem}
-  .option{flex:1 1 0;min-height:42px;padding:.35rem .9rem}
-}
-@media(max-width:380px){
-  .hud-left{font-size:.95rem}
-  .q-text{font-size:1.05rem}
-  .scenic-art{height:12vh;min-height:78px}
-}
-/* 手機矮螢幕（可視高度 < 932px）：選項改 2×2，避免被遮住／裁切、也不需下滑 */
-@media(max-width:720px) and (max-height:931px){
-  .options{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:.45rem}
-  .option{min-height:0;padding:.35rem .7rem;font-size:1rem}
-  .option .num{flex:0 0 30px;height:30px}
-  .scenic-art{height:9vh;min-height:74px}   /* 矮螢幕再讓景點小一點，把空間留給地圖與選項 */
-}
-/* 更矮的手機螢幕（可視高度 < 720px）：再壓縮，確保四選項完整不被裁切 */
-@media(max-width:720px) and (max-height:719px){
-  .map-panel{flex:1.15 1 0}
-  .quiz-panel{flex:1 1 0}
-  .scenic-art{height:7vh;min-height:56px}   /* 景點縮成小條，把空間留給地圖與題目 */
-  .scenic figcaption{margin-top:.2rem;font-size:.85rem}
-  .q-text{margin:.1rem 0 .4rem}
-}
-</style>
+                   .title .accent {
+                       color: var(--sun)
+                   }
+
+               .subtitle {
+                   font-size: clamp(1rem,3vw,1.15rem);
+                   color: var(--green-dark);
+                   margin: .2rem 0 1.4rem;
+                   font-weight: 600
+               }
+
+               .rules {
+                   text-align: left;
+                   background: var(--paper);
+                   border: 2px dashed #b9dceb;
+                   border-radius: 18px;
+                   padding: clamp(.9rem,3vw,1.1rem) clamp(1rem,3vw,1.3rem);
+                   margin-bottom: 1.6rem
+               }
+
+                   .rules h2 {
+                       margin: 0 0 .6rem;
+                       font-size: 1.15rem;
+                       color: var(--blue-dark)
+                   }
+
+                   .rules ul {
+                       margin: 0;
+                       padding-left: 1.1rem;
+                       line-height: 1.9;
+                       font-size: clamp(.95rem,2.6vw,1.05rem)
+                   }
+
+                   .rules b {
+                       color: var(--blue-dark)
+                   }
+
+               .disclaimer {
+                   margin: 1rem 0 0;
+                   font-size: .85rem;
+                   color: #8aa0ab
+               }
+
+               /* ===================== 遊戲頁 ===================== */
+               #game {
+                   overflow: hidden
+               }
+
+               .bg-photo {
+                   position: absolute;
+                   inset: 0;
+                   z-index: 0;
+                   background: #bfe9ff center/cover no-repeat;
+                   transition: opacity .45s ease;
+                   opacity: 1
+               }
+
+               .bg-scrim {
+                   position: absolute;
+                   inset: 0;
+                   z-index: 0;
+                   pointer-events: none;
+                   background: radial-gradient(120% 90% at 50% -10%, rgba(10,40,60,0) 40%, rgba(10,40,60,.28) 100%), linear-gradient(180deg, rgba(12,45,65,.34) 0%, rgba(12,45,65,.10) 26%, rgba(12,45,65,.30) 100%)
+               }
+
+               .hud {
+                   position: relative;
+                   z-index: 3;
+                   display: flex;
+                   flex-wrap: wrap;
+                   align-items: center;
+                   justify-content: space-between;
+                   gap: .5rem;
+                   padding: .85rem clamp(.9rem,3vw,1.4rem) .95rem;
+                   background: rgba(20,70,95,.72);
+                   color: #fff;
+                   backdrop-filter: blur(8px)
+               }
+
+               .hud-left {
+                   font-size: clamp(1rem,3.4vw,1.3rem);
+                   font-weight: 800;
+                   letter-spacing: 1px
+               }
+
+               .hud-right {
+                   display: flex;
+                   gap: .5rem;
+                   flex-wrap: wrap
+               }
+
+               .hud-pill {
+                   background: rgba(255,255,255,.18);
+                   padding: .3rem .85rem;
+                   border-radius: 999px;
+                   font-size: clamp(.8rem,2.4vw,.95rem)
+               }
+
+                   .hud-pill b {
+                       color: var(--sun);
+                       font-size: 1.1em
+                   }
+
+               .progress {
+                   flex: 1 1 100%;
+                   height: 8px;
+                   background: rgba(255,255,255,.25);
+                   border-radius: 999px;
+                   overflow: hidden
+               }
+
+               .progress-bar {
+                   height: 100%;
+                   width: 0%;
+                   background: linear-gradient(90deg,var(--sun),#ffd873);
+                   transition: width .4s ease
+               }
+
+               .stage {
+                   position: relative;
+                   z-index: 2;
+                   display: grid;
+                   grid-template-columns: 330px 1fr;
+                   gap: clamp(1rem,2.5vw,1.4rem);
+                   padding: clamp(1rem,3vw,1.4rem);
+                   max-width: 1120px;
+                   margin: 0 auto
+               }
+
+               /* 玻璃卡片 */
+               .map-panel, .quiz-card {
+                   background: var(--glass);
+                   backdrop-filter: blur(8px) saturate(1.08);
+                   border: 1px solid rgba(255,255,255,.65);
+                   border-radius: 20px;
+                   box-shadow: var(--shadow)
+               }
+
+               /* 左：地圖 + 景點 */
+               .map-panel {
+                   padding: 1rem 1.1rem 1.2rem;
+                   align-self: start
+               }
+
+               .panel-title {
+                   margin: 0 0 .25rem;
+                   text-align: center;
+                   color: var(--blue-dark);
+                   font-size: clamp(1rem,2.8vw,1.1rem)
+               }
+
+               .map-status {
+                   margin: 0 0 .5rem;
+                   text-align: center;
+                   font-size: .78rem;
+                   color: #7a8b93
+               }
+
+               #map {
+                   width: 100%;
+                   height: auto;
+                   display: block;
+                   min-height: 190px
+               }
+
+               .region {
+                   fill: #cde7d3;
+                   stroke: #ffffff;
+                   stroke-width: 2;
+                   transition: fill .3s ease;
+                   cursor: default
+               }
+
+                   .region.active {
+                       fill: var(--sun);
+                       stroke: #e0a11f
+                   }
+
+               .region-label {
+                   font-size: 14px;
+                   font-weight: 800;
+                   fill: var(--green-dark);
+                   text-anchor: middle;
+                   pointer-events: none;
+                   paint-order: stroke;
+                   stroke: rgba(255,255,255,.85);
+                   stroke-width: 3px
+               }
+
+                   .region-label.active {
+                       fill: #7a5200
+                   }
+
+               .scenic {
+                   margin: 1rem 0 0
+               }
+
+               .scenic-art {
+                   height: clamp(120px,20vw,150px);
+                   border-radius: 14px;
+                   overflow: hidden;
+                   box-shadow: inset 0 0 0 3px rgba(255,255,255,.85), 0 4px 14px rgba(15,50,70,.18);
+                   background: #e8f5ec
+               }
+
+                   .scenic-art img, .scenic-art svg {
+                       width: 100%;
+                       height: 100%;
+                       object-fit: cover;
+                       display: block
+                   }
+
+               .scenic figcaption {
+                   margin-top: .55rem;
+                   text-align: center;
+                   font-size: clamp(.9rem,2.5vw,.98rem)
+               }
+
+                   .scenic figcaption b {
+                       color: var(--blue-dark)
+                   }
+
+               .scenic-area {
+                   display: inline-block;
+                   margin-left: .4rem;
+                   background: var(--green);
+                   color: #fff;
+                   font-size: .8rem;
+                   padding: .1rem .6rem;
+                   border-radius: 999px;
+                   vertical-align: 1px
+               }
+
+               /* 右：題目 */
+               .quiz-panel {
+                   align-self: start
+               }
+
+               .quiz-card {
+                   padding: clamp(1.2rem,3.5vw,1.6rem) clamp(1.2rem,3.5vw,1.6rem) 1.4rem
+               }
+
+               .q-tag {
+                   display: inline-block;
+                   margin: 0 0 .6rem;
+                   background: #eaf6fb;
+                   color: var(--blue-dark);
+                   font-weight: 700;
+                   padding: .25rem .9rem;
+                   border-radius: 999px;
+                   font-size: .9rem
+               }
+
+               .q-text {
+                   margin: 0 0 1.1rem;
+                   font-size: clamp(1.15rem,2.7vw,1.4rem);
+                   line-height: 1.6
+               }
+
+               .options {
+                   display: grid;
+                   gap: .65rem
+               }
+
+               .option {
+                   display: flex;
+                   align-items: center;
+                   gap: .8rem;
+                   text-align: left;
+                   background: #fff;
+                   border: 2px solid #d5e6ee;
+                   border-radius: 14px;
+                   padding: clamp(.75rem,2vw,.9rem) 1rem;
+                   font-size: clamp(1rem,2.5vw,1.12rem);
+                   color: var(--ink);
+                   cursor: pointer;
+                   min-height: 52px;
+                   transition: border-color .15s,background .15s,transform .1s
+               }
+
+                   .option:hover:not(:disabled) {
+                       border-color: var(--blue);
+                       background: #f2fafd
+                   }
+
+                   .option:active:not(:disabled) {
+                       transform: scale(.99)
+                   }
+
+                   .option .num {
+                       flex: 0 0 34px;
+                       height: 34px;
+                       display: grid;
+                       place-items: center;
+                       background: var(--blue);
+                       color: #fff;
+                       border-radius: 50%;
+                       font-weight: 800
+                   }
+
+                   .option:disabled {
+                       cursor: default;
+                       opacity: .95
+                   }
+
+                   .option.correct {
+                       border-color: var(--ok);
+                       background: #e6f8ee
+                   }
+
+                       .option.correct .num {
+                           background: var(--ok)
+                       }
+
+                   .option.wrong {
+                       border-color: var(--no);
+                       background: #fdecec
+                   }
+
+                       .option.wrong .num {
+                           background: var(--no)
+                       }
+
+               /* 答對／答錯 彈出視窗（modal） */
+               .modal {
+                   position: fixed;
+                   inset: 0;
+                   z-index: 50;
+                   display: grid;
+                   place-items: center;
+                   padding: 1.2rem;
+                   background: rgba(15,45,65,.5);
+                   backdrop-filter: blur(3px);
+                   animation: fade .2s ease
+               }
+
+                   .modal[hidden] {
+                       display: none
+                   }
+
+               .modal-card {
+                   width: min(440px,92vw);
+                   max-height: 86vh;
+                   overflow: auto;
+                   background: #fff;
+                   border-radius: 22px;
+                   padding: 1.5rem 1.4rem 1.4rem;
+                   text-align: center;
+                   box-shadow: 0 20px 50px rgba(10,35,55,.4);
+                   border-top: 6px solid var(--blue);
+                   animation: pop .28s ease
+               }
+
+               .modal.ok .modal-card {
+                   border-top-color: var(--ok)
+               }
+
+               .modal.no .modal-card {
+                   border-top-color: var(--no)
+               }
+
+               .modal-icon {
+                   font-size: 3rem;
+                   line-height: 1
+               }
+
+               .modal-title {
+                   margin: .3rem 0 .2rem;
+                   font-size: clamp(1.3rem,4vw,1.5rem);
+                   font-weight: 800
+               }
+
+               .modal.ok .modal-title {
+                   color: var(--ok)
+               }
+
+               .modal.no .modal-title {
+                   color: var(--no)
+               }
+
+               .modal-hint {
+                   margin: .2rem 0 1.2rem;
+                   font-size: .98rem;
+                   color: var(--ink);
+                   line-height: 1.7;
+                   text-align: left
+               }
+
+               .modal.ok .modal-hint {
+                   text-align: center
+               }
+
+               @keyframes pop {
+                   0% {
+                       transform: scale(.9);
+                       opacity: 0
+                   }
+
+                   100% {
+                       transform: scale(1);
+                       opacity: 1
+                   }
+               }
+
+               @keyframes fade {
+                   from {
+                       opacity: 0
+                   }
+
+                   to {
+                       opacity: 1
+                   }
+               }
+
+               /* ===================== 過關頁 ===================== */
+               #result {
+                   place-items: center;
+                   padding: clamp(1.5rem,5vw,4vh) 1rem;
+                   background: radial-gradient(circle at 50% 0%,#ffe9a8 0,transparent 45%),linear-gradient(160deg,#bfe9ff,#d8f5e2)
+               }
+
+                   #result.is-active {
+                       display: grid
+                   }
+
+               .result-card {
+                   width: min(560px,94vw);
+                   background: rgba(255,255,255,.95);
+                   border-radius: 28px;
+                   padding: clamp(1.8rem,5vw,2.6rem) clamp(1.2rem,4vw,2rem);
+                   text-align: center;
+                   box-shadow: var(--shadow)
+               }
+
+               .trophy {
+                   font-size: clamp(3.5rem,12vw,5rem);
+                   animation: bounce 1.2s ease infinite
+               }
+
+               .result-note {
+                   color: var(--green-dark);
+                   line-height: 1.8;
+                   margin: .6rem 0 1.6rem
+               }
+
+               @keyframes bounce {
+                   0%,100% {
+                       transform: translateY(0)
+                   }
+
+                   50% {
+                       transform: translateY(-12px)
+                   }
+               }
+
+               /* ===================== RWD：手機（≤720px，撐滿整個螢幕高度，不留白、不捲動）
+        * 平板（>720px，如 iPad 768/820/1024）沿用桌機的左右兩欄並排版面 ===================== */
+               @media(max-width:720px) {
+                   #game.is-active {
+                       height: 100svh;
+                       display: flex;
+                       flex-direction: column;
+                       overflow: hidden
+                   }
+
+                   .hud {
+                       flex: 0 0 auto;
+                       padding: .7rem .8rem .8rem
+                   }
+
+                   .hud-left {
+                       font-size: 1.05rem;
+                       letter-spacing: .3px
+                   }
+
+                   .hud-right {
+                       flex-wrap: wrap;
+                       justify-content: flex-end
+                   }
+
+                   .hud-pill {
+                       padding: .25rem .65rem;
+                       font-size: .82rem
+                   }
+
+                   .stage {
+                       flex: 1 1 auto;
+                       min-height: 0;
+                       display: flex;
+                       flex-direction: column;
+                       gap: .55rem;
+                       padding: .55rem;
+                       max-width: 640px;
+                       width: 100%;
+                       margin: 0 auto
+                   }
+
+                   /* 地圖與景點「上下堆疊」，上半卡片佔較大比例、地圖放大 */
+                   .map-panel {
+                       flex: 1.5 1 0;
+                       min-height: 0;
+                       align-self: stretch;
+                       display: flex;
+                       flex-direction: column;
+                       padding: .45rem .85rem .55rem
+                   }
+
+                   .panel-title {
+                       margin: 0;
+                       text-align: center
+                   }
+
+                   .map-status {
+                       margin: 0 0 .25rem
+                   }
+
+                   #map {
+                       flex: 1 1 auto;
+                       min-height: 0;
+                       width: 100%;
+                       height: auto;
+                       max-height: 100%;
+                       align-self: center
+                   }
+
+                   .scenic {
+                       flex: 0 0 auto;
+                       margin: .35rem 0 0
+                   }
+
+                   .scenic-art {
+                       height: 10vh;
+                       min-height: 82px
+                   }
+
+                   /* 題目卡佔較小比例，選項平均分佈填滿 */
+                   .quiz-panel {
+                       flex: 1 1 0;
+                       min-height: 0;
+                       align-self: stretch;
+                       display: flex
+                   }
+
+                   .quiz-card {
+                       flex: 1;
+                       display: flex;
+                       flex-direction: column;
+                       padding: .7rem 1rem
+                   }
+
+                   .q-tag {
+                       margin-bottom: .35rem
+                   }
+
+                   .q-text {
+                       margin: .1rem 0 .5rem;
+                       line-height: 1.5
+                   }
+
+                   .options {
+                       flex: 1;
+                       display: flex;
+                       flex-direction: column;
+                       gap: .45rem
+                   }
+
+                   .option {
+                       flex: 1 1 0;
+                       min-height: 42px;
+                       padding: .35rem .9rem
+                   }
+               }
+
+               @media(max-width:380px) {
+                   .hud-left {
+                       font-size: .95rem
+                   }
+
+                   .q-text {
+                       font-size: 1.05rem
+                   }
+
+                   .scenic-art {
+                       height: 12vh;
+                       min-height: 78px
+                   }
+               }
+               /* 手機矮螢幕（可視高度 < 932px）：選項改 2×2，避免被遮住／裁切、也不需下滑 */
+               @media(max-width:720px) and (max-height:931px) {
+                   .options {
+                       display: grid;
+                       grid-template-columns: 1fr 1fr;
+                       grid-template-rows: 1fr 1fr;
+                       gap: .45rem
+                   }
+
+                   .option {
+                       min-height: 0;
+                       padding: .35rem .7rem;
+                       font-size: 1rem
+                   }
+
+                       .option .num {
+                           flex: 0 0 30px;
+                           height: 30px
+                       }
+
+                   .scenic-art {
+                       height: 9vh;
+                       min-height: 74px
+                   }
+                   /* 矮螢幕再讓景點小一點，把空間留給地圖與選項 */
+               }
+               /* 更矮的手機螢幕（可視高度 < 720px）：再壓縮，確保四選項完整不被裁切 */
+               @media(max-width:720px) and (max-height:719px) {
+                   .map-panel {
+                       flex: 1.15 1 0
+                   }
+
+                   .quiz-panel {
+                       flex: 1 1 0
+                   }
+
+                   .scenic-art {
+                       height: 7vh;
+                       min-height: 56px
+                   }
+                   /* 景點縮成小條，把空間留給地圖與題目 */
+                   .scenic figcaption {
+                       margin-top: .2rem;
+                       font-size: .85rem
+                   }
+
+                   .q-text {
+                       margin: .1rem 0 .4rem
+                   }
+               }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3NSBZ2EHG5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-3NSBZ2EHG5');
+    </script>
 </head>
 <body>
 
