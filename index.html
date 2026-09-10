@@ -88,13 +88,13 @@
                /* ===================== 歡迎頁 ===================== */
                #welcome {
                    display: none;
-                   place-items: center;
                    padding: clamp(1rem,4vw,3vh) 1rem;
+                   padding: max(clamp(1rem,4vw,3vh),env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(clamp(1rem,4vw,3vh),env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));
                    background: radial-gradient(circle at 20% 15%,#ffe9a8 0,transparent 40%), radial-gradient(circle at 85% 80%,#a8e6cf 0,transparent 45%), linear-gradient(160deg,#bfe9ff,#eaf8ff)
                }
 
                    #welcome.is-active {
-                       display: grid
+                       display: flex
                    }
 
                .welcome-card {
@@ -104,7 +104,8 @@
                    padding: clamp(1.5rem,5vw,2.4rem) clamp(1.2rem,4vw,2rem) 2rem;
                    box-shadow: var(--shadow);
                    text-align: center;
-                   backdrop-filter: blur(4px)
+                   backdrop-filter: blur(4px);
+                   margin: auto
                }
 
                .badge {
@@ -580,14 +581,15 @@
                    }
                }
 
-               /* ===================== RWD：手機（≤720px，撐滿整個螢幕高度，不留白、不捲動）
+               /* ===================== RWD：手機（≤720px，短內容撐滿畫面、長內容可自然捲動）
         * 平板（>720px，如 iPad 768/820/1024）沿用桌機的左右兩欄並排版面 ===================== */
                @media(max-width:720px) {
                    #game.is-active {
-                       height: 100svh;
+                       min-height: 100svh;
+                       height: auto;
                        display: flex;
                        flex-direction: column;
-                       overflow: hidden
+                       overflow: visible
                    }
 
                    .hud {
@@ -611,21 +613,21 @@
                    }
 
                    .stage {
-                       flex: 1 1 auto;
-                       min-height: 0;
+                       flex: 1 0 auto;
+                       min-height: auto;
                        display: flex;
                        flex-direction: column;
                        gap: .55rem;
-                       padding: .55rem;
+                       padding: .55rem .55rem max(.55rem,env(safe-area-inset-bottom));
                        max-width: 640px;
                        width: 100%;
                        margin: 0 auto
                    }
 
-                   /* 地圖與景點「上下堆疊」，上半卡片佔較大比例、地圖放大 */
+                   /* 地圖與景點上下堆疊；卡片依內容自然增高，避免擠壓題目 */
                    .map-panel {
-                       flex: 1.5 1 0;
-                       min-height: 0;
+                       flex: 0 0 auto;
+                       min-height: auto;
                        align-self: stretch;
                        display: flex;
                        flex-direction: column;
@@ -642,11 +644,11 @@
                    }
 
                    #map {
-                       flex: 1 1 auto;
+                       flex: 0 0 auto;
                        min-height: 0;
                        width: 100%;
-                       height: auto;
-                       max-height: 100%;
+                       height: clamp(180px,25svh,230px);
+                       max-height: none;
                        align-self: center
                    }
 
@@ -660,10 +662,10 @@
                        min-height: 82px
                    }
 
-                   /* 題目卡佔較小比例，選項平均分佈填滿 */
+                   /* 題目與選項依文字長度自然增高 */
                    .quiz-panel {
-                       flex: 1 1 0;
-                       min-height: 0;
+                       flex: 0 0 auto;
+                       min-height: auto;
                        align-self: stretch;
                        display: flex
                    }
@@ -685,16 +687,17 @@
                    }
 
                    .options {
-                       flex: 1;
+                       flex: none;
                        display: flex;
                        flex-direction: column;
                        gap: .45rem
                    }
 
                    .option {
-                       flex: 1 1 0;
+                       flex: 0 0 auto;
                        min-height: 42px;
-                       padding: .35rem .9rem
+                       padding: .35rem .9rem;
+                       overflow-wrap: anywhere
                    }
                }
 
@@ -712,7 +715,7 @@
                        min-height: 78px
                    }
                }
-               /* 手機矮螢幕（可視高度 < 932px）：選項改 2×2，避免被遮住／裁切、也不需下滑 */
+               /* 手機矮螢幕（可視高度 < 932px）：選項改 2×2；內容過長時頁面可向下捲動 */
                @media(max-width:720px) and (max-height:931px) {
                    .options {
                        display: grid;
@@ -738,16 +741,8 @@
                    }
                    /* 矮螢幕再讓景點小一點，把空間留給地圖與選項 */
                }
-               /* 更矮的手機螢幕（可視高度 < 720px）：再壓縮，確保四選項完整不被裁切 */
+               /* 更矮的手機螢幕（可視高度 < 720px）：縮小景點，把更多空間留給題目 */
                @media(max-width:720px) and (max-height:719px) {
-                   .map-panel {
-                       flex: 1.15 1 0
-                   }
-
-                   .quiz-panel {
-                       flex: 1 1 0
-                   }
-
                    .scenic-art {
                        height: 7vh;
                        min-height: 56px
@@ -1019,6 +1014,8 @@ let queue = [], pos = 0, score = 0;
 function showScreen(name){
   Object.values(screens).forEach(s=>s.classList.remove('is-active'));
   screens[name].classList.add('is-active');
+  window.scrollTo(0, 0);
+  requestAnimationFrame(()=>window.scrollTo(0, 0));
 }
 function shuffle(arr){
   const a = arr.slice();
@@ -1070,6 +1067,7 @@ function renderQuestion(){
     opts.appendChild(btn);
   });
   closeModal();
+  requestAnimationFrame(()=>window.scrollTo(0, 0));
 }
 function highlightRegion(area){
   document.querySelectorAll('.region, .region-label').forEach(r=>r.classList.remove('active'));
