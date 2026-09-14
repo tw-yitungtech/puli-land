@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 82" role="img" aria-label="書本與燈泡裝飾">
+  <g transform="rotate(-7 40 49)">
+    <path d="M10 25q20-8 36 5v40q-17-11-36-5Z" fill="#fffdf5" stroke="#3176a0" stroke-width="3"/>
+    <path d="M46 30q17-13 37-5v40q-19-6-37 5Z" fill="#fffdf5" stroke="#3176a0" stroke-width="3"/>
+    <path d="M15 33q13-4 25 3M15 41q13-4 25 3M15 49q13-4 25 3M52 36q12-8 25-5M52 44q12-8 25-5M52 52q12-8 25-5" fill="none" stroke="#c8d9d4" stroke-width="2" stroke-linecap="round"/>
+    <path d="M9 67q18-5 37 6 19-11 38-6" fill="none" stroke="#245d87" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g stroke="#f4b536" stroke-linecap="round">
+    <path d="M88 8V2M69 15l-5-4M104 16l5-4M67 33l-6 2M106 34l6 2" stroke-width="3"/>
+    <path d="M73 25a15 15 0 1 1 25 11c-3 3-5 6-5 10H82c0-4-2-7-5-10a15 15 0 0 1-4-11Z" fill="#ffe17e" stroke-width="3"/>
+    <path d="M81 51h13M82 56h11" stroke="#8c6b27" stroke-width="3"/>
+  </g>
+  <path d="M82 26q3-7 9-7" fill="none" stroke="#fff8cf" stroke-width="3" stroke-linecap="round"/>
+</svg>

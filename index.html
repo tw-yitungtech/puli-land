@@ -90,7 +90,7 @@
                    display: none;
                    padding: clamp(1rem,4vw,3vh) 1rem;
                    padding: max(clamp(1rem,4vw,3vh),env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(clamp(1rem,4vw,3vh),env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));
-                   background: radial-gradient(circle at 20% 15%,#ffe9a8 0,transparent 40%), radial-gradient(circle at 85% 80%,#a8e6cf 0,transparent 45%), linear-gradient(160deg,#bfe9ff,#eaf8ff)
+                   background: #bfe9ff url("images/index_background.png") center center / cover no-repeat
                }
 
                    #welcome.is-active {
@@ -98,14 +98,95 @@
                    }
 
                .welcome-card {
-                   width: min(640px,94vw);
-                   background: rgba(255,255,255,.92);
+                   position: relative;
+                   width: min(628px,94vw);
+                   aspect-ratio: 628 / 711;
+                   background: #fff url("images/welcome_decorations.png") center / 100% 100% no-repeat;
                    border-radius: 28px;
-                   padding: clamp(1.5rem,5vw,2.4rem) clamp(1.2rem,4vw,2rem) 2rem;
+                   padding: 0;
                    box-shadow: var(--shadow);
                    text-align: center;
-                   backdrop-filter: blur(4px);
                    margin: auto
+               }
+
+               .welcome-card .badge {
+                   position: absolute;
+                   top: 3.4%;
+                   left: 50%;
+                   transform: translateX(-50%);
+                   white-space: nowrap;
+                   font-size: 1.4rem;
+                   padding: .35rem 1.3rem
+               }
+
+               .welcome-card .title {
+                   position: absolute;
+                   top: 10.8%;
+                   left: 3%;
+                   width: 94%;
+                   margin: 0;
+                   font-size: 3rem;
+                   line-height: 1.27;
+                   white-space: nowrap
+               }
+
+               .welcome-card .title .accent {
+                   display: block;
+                   color: #f2a52e
+               }
+
+               .welcome-card .subtitle {
+                   position: absolute;
+                   top: 39.5%;
+                   left: 5%;
+                   width: 90%;
+                   margin: 0;
+                   font-size: 1.45rem
+               }
+
+               .welcome-card .rules {
+                   position: absolute;
+                   top: 47.2%;
+                   left: 4.3%;
+                   width: 91.4%;
+                   height: 32.6%;
+                   margin: 0;
+                   padding: .75rem 1.2rem;
+                   border: 0;
+                   border-radius: 0;
+                   background: transparent;
+                   overflow: hidden
+               }
+
+               .welcome-card .rules h2 {
+                   margin-bottom: .35rem;
+                   font-size: 1.55rem
+               }
+
+               .welcome-card .rules ul {
+                   font-size: 1.45rem;
+                   font-weight: 600;
+                   line-height: 1.32;
+                   padding-left: 1.2rem
+               }
+
+               .welcome-card .rules li {
+                   margin-bottom: .12rem
+               }
+
+               .welcome-card .btn {
+                   position: absolute;
+                   top: 82.4%;
+                   left: 50%;
+                   width: 42%;
+                   min-height: 9.8%;
+                   padding: .7rem 0;
+                   font-size: 1.8rem;
+                   transform: translateX(-50%)
+               }
+
+               .welcome-card .btn:active {
+                   transform: translate(-50%,2px)
                }
 
                .badge {
@@ -174,9 +255,18 @@
                    overflow: hidden
                }
 
+               #game.is-active {
+                   display: flex;
+                   flex-direction: column
+               }
+
                .game-fit {
                    position: relative;
-                   z-index: 2
+                   z-index: 2;
+                   display: flex;
+                   flex: 1;
+                   flex-direction: column;
+                   width: 100%
                }
 
                .bg-photo {
@@ -193,51 +283,110 @@
                    inset: 0;
                    z-index: 0;
                    pointer-events: none;
-                   background: radial-gradient(120% 90% at 50% -10%, rgba(10,40,60,0) 40%, rgba(10,40,60,.28) 100%), linear-gradient(180deg, rgba(12,45,65,.34) 0%, rgba(12,45,65,.10) 26%, rgba(12,45,65,.30) 100%)
+                   background: linear-gradient(180deg,rgba(7,46,67,.18),rgba(7,46,67,.28))
                }
 
                .hud {
                    position: relative;
                    z-index: 3;
                    display: flex;
-                   flex-wrap: wrap;
                    align-items: center;
                    justify-content: space-between;
-                   gap: .5rem;
-                   padding: .85rem clamp(.9rem,3vw,1.4rem) .95rem;
-                   background: rgba(20,70,95,.72);
-                   color: #fff;
-                   backdrop-filter: blur(8px)
+                   gap: clamp(1rem,3vw,2.5rem);
+                   padding: 1.1rem clamp(1rem,4vw,3rem);
+                   color: #fff
                }
 
                .hud-left {
-                   font-size: clamp(1rem,3.4vw,1.3rem);
+                   position: relative;
+                   flex: 0 0 auto;
+                   min-width: clamp(190px,24vw,340px);
+                   padding: .45rem 1.5rem .55rem;
+                   border: 3px solid #754016;
+                   border-radius: 13px 24px 16px 20px;
+                   background: repeating-linear-gradient(170deg,transparent 0 17px,rgba(110,57,23,.18) 18px 20px),linear-gradient(115deg,#8c4c24,#c98642 45%,#9d592a);
+                   color: #fff;
+                   box-shadow: 0 6px 0 #6f3a16,0 12px 25px rgba(22,50,39,.24);
+                   text-align: center;
+                   text-shadow: 0 2px 2px rgba(77,39,14,.55);
+                   font-size: clamp(1.5rem,2.7vw,2.3rem);
                    font-weight: 800;
-                   letter-spacing: 1px
+                   letter-spacing: .16em;
+                   transform: rotate(-2deg)
+               }
+
+               .hud-left::before, .hud-left::after {
+                   content: "✿";
+                   position: absolute;
+                   top: -.7rem;
+                   color: #fff;
+                   font-size: 1.2rem;
+                   text-shadow: 0 0 0 #fff,2px 2px 0 #f3b542
+               }
+
+               .hud-left::before {
+                   left: .4rem
+               }
+
+               .hud-left::after {
+                   right: .5rem
+               }
+
+               .hud-left small {
+                   display: block;
+                   font-size: .45em;
+                   letter-spacing: .1em;
+                   margin-top: .2rem
+               }
+
+               .hud-tagline, .hud-journey {
+                   font-weight: 800;
+                   letter-spacing: .12em;
+               }
+
+               .hud-tagline {
+                   font-size: clamp(1rem,1.55vw,1.45rem)
+               }
+
+               .hud-tagline small {
+                   display: block;
+                   margin-top: .2rem;
+                   font-size: .64em;
+                   text-align: center
+               }
+
+               .hud-journey {
+                   font-size: clamp(.9rem,1.25vw,1.2rem);
+                   line-height: 1.5;
+                   text-align: center
                }
 
                .hud-right {
                    display: flex;
                    gap: .5rem;
-                   flex-wrap: wrap
+                   flex-wrap: wrap;
+                   justify-content: flex-end
                }
 
                .hud-pill {
-                   background: rgba(255,255,255,.18);
+                   background: #eaf6ed;
+                   border: 1px solid #c4e1c9;
+                   color: var(--green-dark);
+                   font-weight: 700;
                    padding: .3rem .85rem;
                    border-radius: 999px;
                    font-size: clamp(.8rem,2.4vw,.95rem)
                }
 
                    .hud-pill b {
-                       color: var(--sun);
+                       color: #bd7a12;
                        font-size: 1.1em
                    }
 
                .progress {
-                   flex: 1 1 100%;
-                   height: 8px;
-                   background: rgba(255,255,255,.25);
+                   height: 6px;
+                   margin: 0 0 1rem;
+                   background: #dcece5;
                    border-radius: 999px;
                    overflow: hidden
                }
@@ -253,40 +402,114 @@
                    position: relative;
                    z-index: 2;
                    display: grid;
-                   grid-template-columns: 330px 1fr;
+                   grid-template-columns: minmax(300px,440px) minmax(0,1fr);
+                   flex: 1;
+                   align-content: center;
                    gap: clamp(1rem,2.5vw,1.4rem);
                    padding: clamp(1rem,3vw,1.4rem);
-                   max-width: 1120px;
+                   max-width: 1530px;
+                   width: 100%;
                    margin: 0 auto
                }
 
-               /* 玻璃卡片 */
+               .game-footnote {
+                   margin: 0 auto 1rem;
+                   padding: .2rem 1rem;
+                   border-bottom: 2px dashed #a9d4df;
+                   color: #164b6a;
+                   background: rgba(255,253,248,.68);
+                   border-radius: 999px;
+                   font-weight: 800;
+                   letter-spacing: .15em
+               }
+
+               /* 呼應歡迎頁的奶白卡片與虛線裝飾框 */
                .map-panel, .quiz-card {
-                   background: var(--glass);
-                   backdrop-filter: blur(8px) saturate(1.08);
-                   border: 1px solid rgba(255,255,255,.65);
+                   position: relative;
+                   background: rgba(255,253,248,.96);
+                   border: 2px solid rgba(255,255,255,.94);
+                   border-radius: 28px;
+                   box-shadow: 0 18px 44px rgba(17,63,82,.24)
+               }
+
+               .map-panel::before, .quiz-card::before {
+                   content: "";
+                   position: absolute;
+                   inset: 9px;
+                   border: 2px dashed #b4dce8;
                    border-radius: 20px;
-                   box-shadow: var(--shadow)
+                   pointer-events: none
+               }
+
+               .map-panel::after, .quiz-card::after {
+                   content: "";
+                   position: absolute;
+                   top: 16px;
+                   right: 21px;
+                   width: 30px;
+                   height: 43px;
+                   background: url("images/game_leaf.svg") center / contain no-repeat;
+                   transform: rotate(-30deg);
+                   opacity: .85;
+                   pointer-events: none
+               }
+
+               .quiz-card::after {
+                   top: auto;
+                   right: 9px;
+                   bottom: -9px;
+                   width: 58px;
+                   height: 72px;
+                   transform: rotate(55deg)
                }
 
                /* 左：地圖 + 景點 */
                .map-panel {
-                   padding: 1rem 1.1rem 1.2rem;
-                   align-self: start
+                   padding: 1.3rem 1.35rem 1.4rem;
+                   align-self: stretch
+               }
+
+               .map-compass {
+                   position: absolute;
+                   top: 6.6rem;
+                   left: 1.3rem;
+                   width: 70px;
+                   height: 78px;
+                   opacity: .82;
+                   pointer-events: none
+               }
+
+               .map-trees {
+                   position: absolute;
+                   width: 54px;
+                   height: 45px;
+                   opacity: .8;
+                   pointer-events: none
+               }
+
+               .map-trees-left {
+                   top: 48%;
+                   left: 1.2rem
+               }
+
+               .map-trees-right {
+                   top: 42%;
+                   right: 1.3rem;
+                   transform: scale(.85)
                }
 
                .panel-title {
                    margin: 0 0 .25rem;
                    text-align: center;
                    color: var(--blue-dark);
-                   font-size: clamp(1rem,2.8vw,1.1rem)
+                   font-size: clamp(1.1rem,2.8vw,1.35rem)
                }
 
                .map-status {
                    margin: 0 0 .5rem;
                    text-align: center;
                    font-size: .78rem;
-                   color: #7a8b93
+                   color: #668284
                }
 
                #map {
@@ -294,6 +517,11 @@
                    height: auto;
                    display: block;
                    min-height: 190px
+               }
+
+               #map .map-pin {
+                   pointer-events: none;
+                   filter: drop-shadow(0 2px 3px rgba(66,84,54,.3))
                }
 
                .region {
@@ -325,15 +553,46 @@
                    }
 
                .scenic {
+                   position: relative;
                    margin: 1rem 0 0
                }
 
+               .scenic::before {
+                   content: "";
+                   position: absolute;
+                   top: -.35rem;
+                   left: -.35rem;
+                   z-index: 1;
+                   width: 4.5rem;
+                   height: 1.15rem;
+                   background: rgba(255,222,144,.7);
+                   transform: rotate(-15deg);
+                   pointer-events: none
+               }
+
                .scenic-art {
+                   position: relative;
                    height: clamp(120px,20vw,150px);
-                   border-radius: 14px;
+                   border-radius: 18px;
                    overflow: hidden;
-                   box-shadow: inset 0 0 0 3px rgba(255,255,255,.85), 0 4px 14px rgba(15,50,70,.18);
+                   border: 3px solid #fff;
+                   box-shadow: 0 5px 16px rgba(15,50,70,.2);
                    background: #e8f5ec
+               }
+
+               .scenic-note {
+                   position: absolute;
+                   left: 11%;
+                   bottom: 13%;
+                   color: #fff;
+                   font-size: 1rem;
+                   font-weight: 800;
+                   line-height: 1.5;
+                   letter-spacing: .15em;
+                   text-align: center;
+                   text-shadow: 0 2px 5px rgba(9,31,44,.9),0 0 12px rgba(9,31,44,.75);
+                   transform: rotate(-8deg);
+                   pointer-events: none
                }
 
                    .scenic-art img, .scenic-art svg {
@@ -347,6 +606,19 @@
                    margin-top: .55rem;
                    text-align: center;
                    font-size: clamp(.9rem,2.5vw,.98rem)
+               }
+
+               .station-sign {
+                   display: inline-block;
+                   margin-right: .65rem;
+                   padding: .22rem .55rem;
+                   border-radius: 4px 8px 5px 7px;
+                   background: linear-gradient(110deg,#8f4e23,#c17d3e);
+                   color: #fff;
+                   font-size: .9em;
+                   font-weight: 800;
+                   box-shadow: 0 3px 0 #73401e;
+                   transform: rotate(-3deg)
                }
 
                    .scenic figcaption b {
@@ -366,32 +638,63 @@
 
                /* 右：題目 */
                .quiz-panel {
-                   align-self: start
+                   align-self: stretch;
+                   display: flex;
+                   min-width: 0
                }
 
                .quiz-card {
-                   padding: clamp(1.2rem,3.5vw,1.6rem) clamp(1.2rem,3.5vw,1.6rem) 1.4rem
+                   flex: 1;
+                   display: flex;
+                   flex-direction: column;
+                   padding: clamp(1.35rem,3.5vw,1.8rem);
+                   background: radial-gradient(circle at 96% 5%,rgba(192,230,183,.2),transparent 100px),rgba(255,253,248,.97)
+               }
+
+               .quiz-heading {
+                   display: flex;
+                   align-items: center;
+                   justify-content: space-between;
+                   gap: .7rem;
+                   margin-bottom: .6rem
                }
 
                .q-tag {
-                   display: inline-block;
-                   margin: 0 0 .6rem;
-                   background: #eaf6fb;
-                   color: var(--blue-dark);
-                   font-weight: 700;
-                   padding: .25rem .9rem;
+                   position: relative;
+                   display: inline-flex;
+                   align-items: center;
+                   margin: 0;
+                   margin-left: 4.5rem;
+                   background: linear-gradient(90deg,#438a55,#62a773);
+                   color: #fff;
+                   font-weight: 800;
+                   padding: .35rem 1.1rem;
                    border-radius: 999px;
-                   font-size: .9rem
+                   font-size: 1.05rem;
+                   white-space: nowrap
+               }
+
+               .q-illustration {
+                   position: absolute;
+                   left: -4.9rem;
+                   top: -.9rem;
+                   width: 5.8rem;
+                   height: 4.3rem;
+                   object-fit: contain;
+                   pointer-events: none
                }
 
                .q-text {
                    margin: 0 0 1.1rem;
-                   font-size: clamp(1.15rem,2.7vw,1.4rem);
-                   line-height: 1.6
+                   font-size: clamp(1.2rem,2.5vw,1.65rem);
+                   line-height: 1.6;
+                   color: #214f6b
                }
 
                .options {
                    display: grid;
+                   flex: 1;
+                   grid-template-rows: repeat(4,minmax(64px,1fr));
                    gap: .65rem
                }
 
@@ -401,19 +704,28 @@
                    gap: .8rem;
                    text-align: left;
                    background: #fff;
-                   border: 2px solid #d5e6ee;
-                   border-radius: 14px;
+                   border: 2px solid #d9e9e2;
+                   border-radius: 17px;
                    padding: clamp(.75rem,2vw,.9rem) 1rem;
-                   font-size: clamp(1rem,2.5vw,1.12rem);
+                   font-size: clamp(1rem,2.3vw,1.25rem);
                    color: var(--ink);
                    cursor: pointer;
-                   min-height: 52px;
+                   min-height: 64px;
+                   box-shadow: 0 3px 8px rgba(17,63,82,.06);
                    transition: border-color .15s,background .15s,transform .1s
                }
 
+               .option::after {
+                   content: "›";
+                   margin-left: auto;
+                   color: #a6d0b3;
+                   font-size: 2rem;
+                   line-height: 1
+               }
+
                    .option:hover:not(:disabled) {
-                       border-color: var(--blue);
-                       background: #f2fafd
+                       border-color: #e4b04d;
+                       background: #fffaf0
                    }
 
                    .option:active:not(:disabled) {
@@ -421,12 +733,12 @@
                    }
 
                    .option .num {
-                       flex: 0 0 34px;
-                       height: 34px;
+                       flex: 0 0 40px;
+                       height: 40px;
                        display: grid;
                        place-items: center;
-                       background: var(--blue);
-                       color: #fff;
+                       background: #ffd16b;
+                       color: #715018;
                        border-radius: 50%;
                        font-weight: 800
                    }
@@ -462,7 +774,7 @@
                    display: grid;
                    place-items: center;
                    padding: 1.2rem;
-                   background: rgba(15,45,65,.5);
+                   background: rgba(17,63,82,.52);
                    backdrop-filter: blur(3px);
                    animation: fade .2s ease
                }
@@ -472,16 +784,27 @@
                    }
 
                .modal-card {
+                   position: relative;
                    width: min(440px,92vw);
                    max-height: 86vh;
                    overflow: auto;
-                   background: #fff;
-                   border-radius: 22px;
+                   background: #fffdf8;
+                   border-radius: 28px;
                    padding: 1.5rem 1.4rem 1.4rem;
                    text-align: center;
                    box-shadow: 0 20px 50px rgba(10,35,55,.4);
-                   border-top: 6px solid var(--blue);
+                   border: 2px solid #fff;
+                   border-top: 6px solid #f2a52e;
                    animation: pop .28s ease
+               }
+
+               .modal-card::before {
+                   content: "";
+                   position: absolute;
+                   inset: 8px;
+                   border: 2px dashed #b4dce8;
+                   border-radius: 20px;
+                   pointer-events: none
                }
 
                .modal.ok .modal-card {
@@ -549,7 +872,7 @@
                #result {
                    place-items: center;
                    padding: clamp(1.5rem,5vw,4vh) 1rem;
-                   background: radial-gradient(circle at 50% 0%,#ffe9a8 0,transparent 45%),linear-gradient(160deg,#bfe9ff,#d8f5e2)
+                   background: #bfe9ff url("images/index_background.png") center / cover no-repeat
                }
 
                    #result.is-active {
@@ -557,12 +880,23 @@
                    }
 
                .result-card {
+                   position: relative;
                    width: min(560px,94vw);
-                   background: rgba(255,255,255,.95);
+                   background: rgba(255,253,248,.96);
+                   border: 2px solid #fff;
                    border-radius: 28px;
                    padding: clamp(1.8rem,5vw,2.6rem) clamp(1.2rem,4vw,2rem);
                    text-align: center;
                    box-shadow: var(--shadow)
+               }
+
+               .result-card::before {
+                   content: "";
+                   position: absolute;
+                   inset: 9px;
+                   border: 2px dashed #b4dce8;
+                   border-radius: 20px;
+                   pointer-events: none
                }
 
                .trophy {
@@ -586,14 +920,143 @@
                    }
                }
 
-               /* ===================== RWD：手機（≤720px，依內容自動縮放至單一畫面）
-        * 平板（>720px，如 iPad 768/820/1024）沿用桌機的左右兩欄並排版面 ===================== */
+               /* 平板直向：保留雙欄，但避免地圖擠掉題目與選項。 */
+               @media (min-width:721px) and (max-width:1100px) {
+                   #game.is-active {
+                       display: block;
+                       min-height: 100svh;
+                       height: 100svh;
+                       max-height: 100svh;
+                       overflow: hidden
+                   }
+
+                   .game-fit {
+                       position: absolute;
+                       top: 0;
+                       left: 50%;
+                       width: 100%;
+                       transform: translateX(-50%);
+                       transform-origin: top center
+                   }
+
+                   .stage {
+                       flex: 0 0 auto;
+                       align-content: start;
+                       grid-template-columns: minmax(0,38%) minmax(0,1fr);
+                       gap: 1rem;
+                       padding: 1rem
+                   }
+
+                   .map-panel, .quiz-card {
+                       min-width: 0
+                   }
+
+                   .map-panel {
+                       padding: 1rem
+                   }
+
+                   .quiz-card {
+                       padding: 1.1rem
+                   }
+
+                   .quiz-heading {
+                       flex-wrap: wrap
+                   }
+
+                   .hud-right {
+                       flex-wrap: nowrap
+                   }
+
+                   .hud-pill {
+                       white-space: nowrap;
+                       padding: .25rem .55rem;
+                       font-size: .85rem
+                   }
+
+                   .q-text {
+                       font-size: 1.25rem;
+                       line-height: 1.5
+                   }
+
+                   .option {
+                       padding: .6rem .75rem;
+                       font-size: 1rem
+                   }
+
+                   .scenic-art {
+                       height: 120px
+                   }
+               }
+
+               @media (min-width:721px) and (max-width:850px) {
+                   .hud {
+                       gap: .7rem;
+                       padding: .8rem 1rem
+                   }
+
+                   .hud-left {
+                       min-width: 190px;
+                       font-size: 1.5rem
+                   }
+
+                   .hud-tagline {
+                       font-size: .85rem
+                   }
+
+                   .hud-journey {
+                       font-size: .8rem
+                   }
+
+                   .q-tag {
+                       margin-left: 3.2rem;
+                       font-size: .9rem
+                   }
+
+                   .q-illustration {
+                       left: -3.7rem;
+                       width: 4.3rem;
+                       height: 3.5rem
+                   }
+
+                   .options {
+                       grid-template-columns: repeat(2,minmax(0,1fr));
+                       grid-template-rows: repeat(2,minmax(130px,auto));
+                       flex: 0 0 auto
+                   }
+
+                   .option {
+                       gap: .45rem;
+                       min-width: 0;
+                       overflow-wrap: anywhere
+                   }
+
+                   .option .num {
+                       flex-basis: 32px;
+                       height: 32px
+                   }
+
+                   .option::after {
+                       display: none
+                   }
+
+                   .map-compass {
+                       left: .8rem;
+                       width: 48px
+                   }
+
+                   .map-trees {
+                       width: 40px
+                   }
+               }
+
+               /* ===================== RWD：手機（≤720px，依內容自動縮放至單一畫面） ===================== */
                @media(max-width:720px) {
                    #welcome.is-active {
                        display: block;
                        height: 100svh;
                        min-height: 100svh;
                        max-height: 100svh;
+                       padding: max(.5rem,env(safe-area-inset-top)) max(.35rem,env(safe-area-inset-right)) max(.5rem,env(safe-area-inset-bottom)) max(.35rem,env(safe-area-inset-left));
                        overflow: hidden
                    }
 
@@ -646,12 +1109,28 @@
 
                    .hud {
                        flex: 0 0 auto;
-                       padding: .7rem .8rem .8rem
+                       justify-content: center;
+                       padding: .5rem .7rem .7rem
                    }
 
                    .hud-left {
-                       font-size: 1.05rem;
-                       letter-spacing: .3px
+                       width: min(100%,270px);
+                       min-width: 0;
+                       padding: .3rem .8rem;
+                       border-width: 2px;
+                       font-size: 1.2rem;
+                       letter-spacing: .12em;
+                       transform: none
+                   }
+
+                   .hud-tagline, .hud-journey, .game-footnote {
+                       display: none
+                   }
+
+                   .quiz-heading {
+                       flex-wrap: wrap;
+                       gap: .3rem;
+                       margin-bottom: .3rem
                    }
 
                    .hud-right {
@@ -662,6 +1141,10 @@
                    .hud-pill {
                        padding: .25rem .65rem;
                        font-size: .82rem
+                   }
+
+                   .progress {
+                       margin-bottom: .4rem
                    }
 
                    .stage {
@@ -683,7 +1166,23 @@
                        align-self: stretch;
                        display: flex;
                        flex-direction: column;
-                       padding: .45rem .85rem .55rem
+                       padding: .7rem .85rem .65rem
+                   }
+
+                   .map-panel::before, .quiz-card::before {
+                       inset: 5px;
+                       border-radius: 18px
+                   }
+
+                   .map-panel::after, .quiz-card::after {
+                       top: 7px;
+                       right: 12px;
+                       width: 18px;
+                       height: 27px
+                   }
+
+                   .quiz-card::after {
+                       display: none
                    }
 
                    .panel-title {
@@ -693,6 +1192,29 @@
 
                    .map-status {
                        margin: 0 0 .25rem
+                   }
+
+                   .map-compass {
+                       top: 19%;
+                       left: 4%;
+                       width: 46px;
+                       height: 52px
+                   }
+
+                   .map-trees {
+                       width: 38px;
+                       height: 32px
+                   }
+
+                   .map-trees-left {
+                       top: 62%;
+                       left: 3%
+                   }
+
+                   .map-trees-right {
+                       top: 49%;
+                       right: 3%;
+                       transform: scale(.85)
                    }
 
                    #map {
@@ -707,6 +1229,26 @@
                    .scenic {
                        flex: 0 0 auto;
                        margin: .35rem 0 0
+                   }
+
+                   .scenic::before {
+                       top: -.2rem;
+                       left: -.15rem;
+                       width: 2.8rem;
+                       height: .7rem
+                   }
+
+                   .scenic-note {
+                       left: 8%;
+                       bottom: 9%;
+                       font-size: .7rem;
+                       line-height: 1.2
+                   }
+
+                   .station-sign {
+                       margin-right: .3rem;
+                       padding: .1rem .3rem;
+                       font-size: .75em
                    }
 
                    .scenic-art {
@@ -726,16 +1268,26 @@
                        flex: 1;
                        display: flex;
                        flex-direction: column;
-                       padding: .7rem 1rem
+                       padding: .8rem 1rem
                    }
 
                    .q-tag {
-                       margin-bottom: .35rem
+                       margin-left: 2.2rem;
+                       font-size: .85rem;
+                       padding: .2rem .7rem
+                   }
+
+                   .q-illustration {
+                       left: -2.6rem;
+                       top: -.35rem;
+                       width: 3rem;
+                       height: 2.4rem
                    }
 
                    .q-text {
                        margin: .1rem 0 .5rem;
-                       line-height: 1.5
+                       line-height: 1.5;
+                       font-size: 1.15rem
                    }
 
                    .options {
@@ -750,6 +1302,15 @@
                        min-height: 42px;
                        padding: .35rem .9rem;
                        overflow-wrap: anywhere
+                   }
+
+                   .option::after {
+                       display: none
+                   }
+
+                   .option .num {
+                       flex-basis: 34px;
+                       height: 34px
                    }
                }
 
@@ -831,14 +1392,14 @@
     <div class="rules">
       <h2>玩法說明</h2>
       <ul>
-        <li>🗺️ 跟著日月潭與埔里地政管轄的<b>四個轄區</b>（埔里鎮、魚池鄉、國姓鄉、仁愛鄉）一起闖關。</li>
-        <li>❓ 每一關會出現一題<b>地政 / 民法小常識</b>，共 4 個選項，選出正確答案。</li>
-        <li>✅ 答對就繼續前進；答錯別緊張，會給你一個小提示，再試一次！</li>
-        <li>🏆 累積<b>答對 5 題</b>，就可以順利過關囉！</li>
+        <li>走訪埔里、魚池、國姓、仁愛<b>四轄區</b>，一起闖關。</li>
+        <li>每關 1 題<b>地政／民法常識</b>，4 選 1。</li>
+        <li>答錯有提示，可再試一次；答對就前進。</li>
+        <li><b>答對 5 題</b>即可過關！</li>
       </ul>
     </div>
     <button id="startBtn" class="btn btn-primary">開始遊戲 ▶</button>
-    <p class="disclaimer">＊本頁為遊戲示意版，題目內容以現行法令為準。</p>
+
   </div>
 </section>
 
@@ -849,33 +1410,41 @@
 
   <div id="gameFit" class="game-fit">
   <header class="hud">
-    <div class="hud-left">埔里地政知識挑戰</div>
-    <div class="hud-right">
-      <span class="hud-pill">第 <b id="qIndex">1</b> 關</span>
-      <span class="hud-pill">答對 <b id="score">0</b> / 5 題</span>
-    </div>
-    <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
+    <div class="hud-left">埔里地政<small>地頭通・幸福山城 ♥</small></div>
+    <div class="hud-tagline">探索埔里・從地政開始<small>認識家鄉・守護美好土地！</small></div>
+    <div class="hud-journey">山城小旅行<br>知識大冒險！</div>
   </header>
 
   <div class="stage">
     <aside class="map-panel">
       <h3 class="panel-title">埔里地政 管轄四區</h3>
       <p class="map-status" id="mapStatus">正在載入行政區圖資……</p>
+      <img class="map-compass" src="images/game_compass.svg" alt="" aria-hidden="true">
+      <img class="map-trees map-trees-left" src="images/game_trees.svg" alt="" aria-hidden="true">
+      <img class="map-trees map-trees-right" src="images/game_trees.svg" alt="" aria-hidden="true">
       <svg id="map" viewBox="0 0 300 300" role="img" aria-label="埔里地政管轄四區地圖"></svg>
       <figure class="scenic">
         <div id="scenicArt" class="scenic-art"></div>
-        <figcaption>本關景點：<b id="scenicName">日月潭</b><span id="scenicArea" class="scenic-area">魚池鄉</span></figcaption>
+        <figcaption><span class="station-sign" id="stationSign">第 1 站</span>本關景點：<b id="scenicName">日月潭</b><span id="scenicArea" class="scenic-area">魚池鄉</span></figcaption>
       </figure>
     </aside>
 
     <main class="quiz-panel">
       <div class="quiz-card">
-        <p class="q-tag">地政小常識</p>
+        <div class="quiz-heading">
+          <p class="q-tag"><img class="q-illustration" src="images/game_book.svg" alt="" aria-hidden="true">地政小常識</p>
+          <div class="hud-right">
+            <span class="hud-pill">第 <b id="qIndex">1</b> 關 / 5</span>
+            <span class="hud-pill">答對 <b id="score">0</b> 題</span>
+          </div>
+        </div>
+        <div class="progress" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
         <h2 id="questionText" class="q-text">題目載入中…</h2>
         <div id="options" class="options"></div>
       </div>
     </main>
   </div>
+  <p class="game-footnote">📍 走進埔里・發現土地的故事</p>
   </div>
 
   <!-- 答對／答錯 彈出視窗 -->
@@ -904,6 +1473,7 @@
 /* ---- 真實南投縣地圖圖資（只取埔里地政管轄四區）；載入失敗則退回手繪示意圖 ---- */
 const FOUR = ['埔里鎮','魚池鄉','國姓鄉','仁愛鄉'];
 let mapReady = false;
+async function loadMap(){
 try{
   const d3 = await import('https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm');
   const {feature} = await import('https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm');
@@ -929,6 +1499,9 @@ try{
   document.getElementById('mapStatus').textContent = '（示意地圖）答題時對應轄區會亮起。';
   console.warn('改用手繪示意地圖：', err);
 }
+if(queue.length) highlightRegion(MEDIA[queue[pos].pic].area);
+}
+loadMap();
 function drawFallbackMap(){
   document.getElementById('map').innerHTML = `
     <polygon class="region" data-town="國姓鄉" points="20,30 150,20 150,140 40,150 15,90"/>
@@ -949,14 +1522,14 @@ const ART = {
 };
 
 /* ---- 依轄區切換的媒體（照片 / 手繪） ----
- *  埔里鎮 → 埔里夜景圖.png
- *  魚池鄉 → 日月潭.png / 魚池金龍山.png（兩張輪流）
+ *  埔里鎮 → images/埔里夜景圖.png
+ *  魚池鄉 → images/日月潭.png / images/魚池金龍山.png（兩張輪流）
  *  國姓鄉 / 仁愛鄉 → 沿用手繪插圖 + 主題漸層背景
  */
 const MEDIA = {
-  日月潭:   { type:'photo', src:'日月潭.png',     name:'日月潭',   area:'魚池鄉' },
-  金龍山:   { type:'photo', src:'魚池金龍山.png', name:'金龍山',   area:'魚池鄉' },
-  埔里夜景: { type:'photo', src:'埔里夜景圖.png', name:'埔里夜景', area:'埔里鎮' },
+  日月潭:   { type:'photo', src:'images/日月潭.png',     name:'日月潭',   area:'魚池鄉' },
+  金龍山:   { type:'photo', src:'images/魚池金龍山.png', name:'金龍山',   area:'魚池鄉' },
+  埔里夜景: { type:'photo', src:'images/埔里夜景圖.png', name:'埔里夜景', area:'埔里鎮' },
   糯米橋:   { type:'art', art:ART.糯米橋,   name:'糯米橋',   area:'國姓鄉',
               theme:'linear-gradient(160deg,#dff1fa,#bfe0c8)' },
   清境農場: { type:'art', art:ART.清境農場, name:'清境農場', area:'仁愛鄉',
@@ -1068,8 +1641,8 @@ const resultCard = document.querySelector('.result-card');
 
 let queue = [], pos = 0, score = 0;
 
-/* 手機版依當下可視區與文字長度自動縮放，讓整頁不需捲動。 */
-function fitElementToViewport(element, container, maxLogicalWidth = Infinity){
+/* 手機與平板依可視區和題目長度自動縮放，避免卡片超出畫面。 */
+function fitElementToViewport(element, container, maxLogicalWidth = Infinity, alignTop = false){
   const style = getComputedStyle(container);
   const padTop = parseFloat(style.paddingTop) || 0;
   const padRight = parseFloat(style.paddingRight) || 0;
@@ -1100,25 +1673,48 @@ function fitElementToViewport(element, container, maxLogicalWidth = Infinity){
   }
 
   const scaledHeight = applyScale(best);
-  element.style.top = padTop + Math.max(0, (availableHeight - scaledHeight) / 2) + 'px';
+  element.style.top = padTop + (alignTop ? 0 : Math.max(0, (availableHeight - scaledHeight) / 2)) + 'px';
+}
+
+function fitWelcomeArtwork(){
+  const style = getComputedStyle(screens.welcome);
+  const padTop = parseFloat(style.paddingTop) || 0;
+  const padRight = parseFloat(style.paddingRight) || 0;
+  const padBottom = parseFloat(style.paddingBottom) || 0;
+  const padLeft = parseFloat(style.paddingLeft) || 0;
+  const availableWidth = Math.max(1, screens.welcome.clientWidth - padLeft - padRight);
+  const availableHeight = Math.max(1, screens.welcome.clientHeight - padTop - padBottom);
+
+  // 保持底圖與文字的共同座標系，不單獨縮窄卡片造成文字跑出裝飾框。
+  welcomeCard.style.width = '628px';
+  const scale = Math.min(1, availableWidth / welcomeCard.offsetWidth, availableHeight / welcomeCard.offsetHeight);
+  welcomeCard.style.transform = `translateX(-50%) scale(${scale})`;
+  welcomeCard.style.top = padTop + Math.max(0, (availableHeight - welcomeCard.offsetHeight * scale) / 2) + 'px';
 }
 
 function fitMobileScreen(){
-  if(!matchMedia('(max-width:720px)').matches){
-    [welcomeCard, gameFit, resultCard].forEach(element => {
+  const isMobile = matchMedia('(max-width:720px)').matches;
+  const isTablet = matchMedia('(min-width:721px) and (max-width:1100px)').matches;
+  if(!isMobile){
+    [welcomeCard, resultCard].forEach(element => {
       element.style.width = '';
       element.style.top = '';
       element.style.transform = '';
     });
+  }
+  if(!isMobile && !isTablet){
+    gameFit.style.width = '';
+    gameFit.style.top = '';
+    gameFit.style.transform = '';
     return;
   }
-  if(screens.welcome.classList.contains('is-active')){
-    fitElementToViewport(welcomeCard, screens.welcome, 640);
+  if(isMobile && screens.welcome.classList.contains('is-active')){
+    fitWelcomeArtwork();
   }
   if(screens.game.classList.contains('is-active')){
-    fitElementToViewport(gameFit, screens.game);
+    fitElementToViewport(gameFit, screens.game, Infinity, isTablet);
   }
-  if(screens.result.classList.contains('is-active')){
+  if(isMobile && screens.result.classList.contains('is-active')){
     fitElementToViewport(resultCard, screens.result, 560);
   }
 }
@@ -1161,6 +1757,7 @@ function setBackground(cssImage){
 function renderQuestion(){
   const q = queue[pos % queue.length];
   $('qIndex').textContent = score + 1;
+  $('stationSign').textContent = `第 ${score + 1} 站`;
   $('score').textContent = score;
   $('progressBar').style.width = (score/GOAL)*100 + '%';
 
@@ -1169,7 +1766,7 @@ function renderQuestion(){
   if(media.type === 'photo'){
     const url = `url("${encodeURI(media.src)}")`;
     setBackground(url);
-    $('scenicArt').innerHTML = `<img src="${encodeURI(media.src)}" alt="${media.area}景點">`;
+    $('scenicArt').innerHTML = `<img src="${encodeURI(media.src)}" alt="${media.area}景點"><span class="scenic-note" aria-hidden="true">山城風景<br>好美 ♡</span>`;
   }else{
     setBackground(media.theme || 'linear-gradient(160deg,#bfe9ff,#eaf8ff)');
     $('scenicArt').innerHTML = media.art;
@@ -1194,8 +1791,23 @@ function renderQuestion(){
   });
 }
 function highlightRegion(area){
+  if(!mapReady) return;
   document.querySelectorAll('.region, .region-label').forEach(r=>r.classList.remove('active'));
   document.querySelectorAll(`[data-town="${area}"]`).forEach(r=>r.classList.add('active'));
+  const svg = $('map');
+  const label = Array.from(svg.querySelectorAll('.region-label')).find(r=>r.dataset.town === area);
+  let pin = svg.querySelector('.map-pin');
+  if(!label){ pin?.remove(); return; }
+  if(!pin){
+    pin = document.createElementNS('http://www.w3.org/2000/svg','image');
+    pin.setAttribute('class','map-pin');
+    pin.setAttribute('href','images/game_pin.svg');
+    pin.setAttribute('width','32');
+    pin.setAttribute('height','44');
+    svg.appendChild(pin);
+  }
+  pin.setAttribute('x',Number(label.getAttribute('x')) - 16);
+  pin.setAttribute('y',Number(label.getAttribute('y')) - 48);
 }
 function handleAnswer(btn, choice, q){
   if(choice === q.answer){

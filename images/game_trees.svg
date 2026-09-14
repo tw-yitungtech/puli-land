@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 86" role="img" aria-label="樹木裝飾">
+  <g stroke-linejoin="round">
+    <path d="M23 72V45M57 76V29M91 72V44" fill="none" stroke="#a77d46" stroke-width="5" stroke-linecap="round"/>
+    <path d="M23 10 8 44h9L6 58h34L29 44h9Z" fill="#91c969" stroke="#7eb55a" stroke-width="2"/>
+    <path d="M57 3 37 45h11L35 65h44L66 45h11Z" fill="#6fae63" stroke="#5d9f55" stroke-width="2"/>
+    <path d="M91 13 77 43h8L75 58h32L97 43h8Z" fill="#a5d47a" stroke="#8dc363" stroke-width="2"/>
+    <path d="M9 75q47 9 94 0" fill="none" stroke="#8fbf70" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" role="img" aria-label="羅盤裝飾">
+  <g fill="none" stroke="#85989d" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="40" cy="49" r="29" stroke-width="2.5"/>
+    <circle cx="40" cy="49" r="5" stroke-width="2"/>
+    <path d="M40 17v-6M40 81v-6M8 49h6M72 49h-6" stroke-width="2.4"/>
+    <path d="M40 25 46 43 64 49 46 55 40 73 34 55 16 49 34 43Z" fill="#aab8ba" stroke="#7f9297" stroke-width="1.4"/>
+    <path d="M40 25 46 43 40 49 34 43Z" fill="#edf4f1" stroke="none"/>
+  </g>
+  <text x="40" y="12" fill="#71878d" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">N</text>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 72" role="img" aria-label="葉片裝飾">
+  <path d="M6 63C4 38 12 12 44 5c2 29-8 51-38 58Z" fill="#8bc967" stroke="#62aa57" stroke-width="2"/>
+  <path d="M6 63C18 42 29 25 44 5" fill="none" stroke="#5fa45a" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 43 13 23M25 31 25 13M19 45 34 47M29 28 41 30" fill="none" stroke="#72b766" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
