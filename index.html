@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <title>埔里地政-地頭通，土地價值報恁知-有獎徵答趣味遊戲</title>
+    <title>南投土地通-土地價值報恁知-有獎徵答趣味遊戲</title>
     <style>
                /* ============================================================
-        * 埔里地政知識挑戰 — 單檔示意版（真實照片 + RWD）
+        * 南投土地通知識挑戰 — 單檔示意版（真實照片 + RWD）
         * 主色：日月潭湖水藍 + 山巒綠
         * ⚠️ 題目為示意草稿，對外使用前請承辦同仁核對法令正確性。
         * ============================================================ */
@@ -1051,6 +1051,14 @@
 
                /* ===================== RWD：手機（≤720px，依內容自動縮放至單一畫面） ===================== */
                @media(max-width:720px) {
+                   #game {
+                       background: #f6fbfd
+                   }
+
+                   .bg-photo, .bg-scrim {
+                       display: none
+                   }
+
                    #welcome.is-active {
                        display: block;
                        height: 100svh;
@@ -1085,6 +1093,7 @@
                        display: flex;
                        flex-direction: column;
                        width: 100%;
+                       min-height: 100%;
                        transform: translateX(-50%);
                        transform-origin: top center
                    }
@@ -1148,8 +1157,8 @@
                    }
 
                    .stage {
-                       flex: 1 0 auto;
-                       min-height: auto;
+                       flex: 1 1 auto;
+                       min-height: 0;
                        display: flex;
                        flex-direction: column;
                        gap: .55rem;
@@ -1166,7 +1175,11 @@
                        align-self: stretch;
                        display: flex;
                        flex-direction: column;
-                       padding: .7rem .85rem .65rem
+                       padding: .7rem .85rem .65rem;
+                       background-image: var(--mobile-scenic-bg,none);
+                       background-position: center;
+                       background-size: cover;
+                       background-color: #fffdf8
                    }
 
                    .map-panel::before, .quiz-card::before {
@@ -1221,21 +1234,18 @@
                        flex: 0 0 auto;
                        min-height: 0;
                        width: min(84%,330px);
-                       height: clamp(210px,32svh,290px);
+                       height: clamp(145px,18svh,180px);
                        max-height: none;
                        align-self: center
                    }
 
                    .scenic {
                        flex: 0 0 auto;
-                       margin: .35rem 0 0
+                       margin: .15rem 0 0
                    }
 
                    .scenic::before {
-                       top: -.2rem;
-                       left: -.15rem;
-                       width: 2.8rem;
-                       height: .7rem
+                       display: none
                    }
 
                    .scenic-note {
@@ -1252,14 +1262,22 @@
                    }
 
                    .scenic-art {
-                       height: 10vh;
-                       min-height: 82px
+                       display: none
+                   }
+
+                   .scenic figcaption {
+                       width: fit-content;
+                       max-width: 100%;
+                       margin: .2rem auto 0;
+                       padding: .18rem .5rem;
+                       border-radius: 999px;
+                       background: rgba(255,255,255,.82)
                    }
 
                    /* 題目與選項依文字長度自然增高 */
                    .quiz-panel {
-                       flex: 0 0 auto;
-                       min-height: auto;
+                       flex: 1 1 auto;
+                       min-height: 0;
                        align-self: stretch;
                        display: flex
                    }
@@ -1268,6 +1286,7 @@
                        flex: 1;
                        display: flex;
                        flex-direction: column;
+                       min-height: 0;
                        padding: .8rem 1rem
                    }
 
@@ -1291,14 +1310,14 @@
                    }
 
                    .options {
-                       flex: none;
+                       flex: 1 1 auto;
                        display: flex;
                        flex-direction: column;
                        gap: .45rem
                    }
 
                    .option {
-                       flex: 0 0 auto;
+                       flex: 1 1 0;
                        min-height: 42px;
                        padding: .35rem .9rem;
                        overflow-wrap: anywhere
@@ -1386,13 +1405,13 @@
 <!-- ===================== 歡迎頁 ===================== -->
 <section id="welcome" class="screen is-active">
   <div class="welcome-card">
-    <div class="badge">埔里地政事務所</div>
-    <h1 class="title">埔里地政<br>地頭通，土地價值報恁知<span class="accent">有獎徵答趣味遊戲</span></h1>
+    <div class="badge">南投土地通</div>
+    <h1 class="title">南投土地通<br>地頭通，土地價值報恁知<span class="accent">有獎徵答趣味遊戲</span></h1>
     <p class="subtitle">遊山玩水，也一起認識地政小知識！</p>
     <div class="rules">
       <h2>玩法說明</h2>
       <ul>
-        <li>走訪埔里、魚池、國姓、仁愛<b>四轄區</b>，一起闖關。</li>
+        <li>走訪南投縣<b>13 個鄉鎮市</b>，一起闖關。</li>
         <li>每關 1 題<b>地政／民法常識</b>，4 選 1。</li>
         <li>答錯有提示，可再試一次；答對就前進。</li>
         <li><b>答對 5 題</b>即可過關！</li>
@@ -1410,19 +1429,19 @@
 
   <div id="gameFit" class="game-fit">
   <header class="hud">
-    <div class="hud-left">埔里地政<small>地頭通・幸福山城 ♥</small></div>
-    <div class="hud-tagline">探索埔里・從地政開始<small>認識家鄉・守護美好土地！</small></div>
+    <div class="hud-left">南投土地通<small>地頭通・幸福山城 ♥</small></div>
+    <div class="hud-tagline">探索南投・從土地開始<small>認識家鄉・守護美好土地！</small></div>
     <div class="hud-journey">山城小旅行<br>知識大冒險！</div>
   </header>
 
   <div class="stage">
     <aside class="map-panel">
-      <h3 class="panel-title">埔里地政 管轄四區</h3>
+      <h3 class="panel-title">南投縣 13 鄉鎮市</h3>
       <p class="map-status" id="mapStatus">正在載入行政區圖資……</p>
       <img class="map-compass" src="images/game_compass.svg" alt="" aria-hidden="true">
       <img class="map-trees map-trees-left" src="images/game_trees.svg" alt="" aria-hidden="true">
       <img class="map-trees map-trees-right" src="images/game_trees.svg" alt="" aria-hidden="true">
-      <svg id="map" viewBox="0 0 300 300" role="img" aria-label="埔里地政管轄四區地圖"></svg>
+      <svg id="map" viewBox="0 0 300 300" role="img" aria-label="南投縣 13 鄉鎮市地圖"></svg>
       <figure class="scenic">
         <div id="scenicArt" class="scenic-art"></div>
         <figcaption><span class="station-sign" id="stationSign">第 1 站</span>本關景點：<b id="scenicName">日月潭</b><span id="scenicArea" class="scenic-area">魚池鄉</span></figcaption>
@@ -1444,7 +1463,7 @@
       </div>
     </main>
   </div>
-  <p class="game-footnote">📍 走進埔里・發現土地的故事</p>
+  <p class="game-footnote">📍 走進南投・發現土地的故事</p>
   </div>
 
   <!-- 答對／答錯 彈出視窗 -->
@@ -1463,15 +1482,15 @@
   <div class="result-card">
     <div class="trophy">🏆</div>
     <h1 class="title">您過關囉！</h1>
-    <p class="subtitle">恭喜您答對 5 題，成功認識埔里地政小知識！</p>
-    <p class="result-note">歡迎有空來埔里、魚池、國姓、仁愛走走，<br>看看日月潭與在地美景 🌄</p>
+    <p class="subtitle">恭喜您答對 5 題，成功認識南投土地小知識！</p>
+    <p class="result-note">歡迎有空來南投各鄉鎮走走，<br>看看日月潭與在地美景 🌄</p>
     <button id="replayBtn" class="btn btn-primary">再玩一次 ↻</button>
   </div>
 </section>
 
 <script type="module">
-/* ---- 真實南投縣地圖圖資（只取埔里地政管轄四區）；載入失敗則退回手繪示意圖 ---- */
-const FOUR = ['埔里鎮','魚池鄉','國姓鄉','仁愛鄉'];
+/* ---- 真實南投縣 13 鄉鎮市地圖；載入失敗則退回手繪示意圖 ---- */
+const NANTOU_TOWNS = ['南投市','埔里鎮','草屯鎮','竹山鎮','集集鎮','名間鄉','鹿谷鄉','中寮鄉','魚池鄉','國姓鄉','水里鄉','信義鄉','仁愛鄉'];
 let mapReady = false;
 async function loadMap(){
 try{
@@ -1480,8 +1499,8 @@ try{
   const taiwan = (await import('https://cdn.jsdelivr.net/npm/taiwan-atlas@2021.9.20/towns-10t.json/+esm')).default;
   const all = feature(taiwan, taiwan.objects.towns);
   const sel = {type:'FeatureCollection', features: all.features.filter(
-    d => d.properties.COUNTYNAME==='南投縣' && FOUR.includes(d.properties.TOWNNAME))};
-  if(sel.features.length < 4) throw new Error('轄區圖資不足');
+    d => d.properties.COUNTYNAME==='南投縣' && NANTOU_TOWNS.includes(d.properties.TOWNNAME))};
+  if(sel.features.length < NANTOU_TOWNS.length) throw new Error('南投縣 13 鄉鎮市圖資不足');
   const svg = d3.select('#map');
   const projection = d3.geoMercator().fitExtent([[16,16],[284,284]], sel);
   const path = d3.geoPath(projection);
@@ -1503,15 +1522,13 @@ if(queue.length) highlightRegion(MEDIA[queue[pos].pic].area);
 }
 loadMap();
 function drawFallbackMap(){
-  document.getElementById('map').innerHTML = `
-    <polygon class="region" data-town="國姓鄉" points="20,30 150,20 150,140 40,150 15,90"/>
-    <polygon class="region" data-town="仁愛鄉" points="150,20 285,35 280,180 175,175 150,140"/>
-    <polygon class="region" data-town="埔里鎮" points="40,150 150,140 175,175 165,255 55,250"/>
-    <polygon class="region" data-town="魚池鄉" points="165,255 175,175 280,180 270,285 165,290"/>
-    <text class="region-label" data-town="國姓鄉" x="82" y="90">國姓鄉</text>
-    <text class="region-label" data-town="仁愛鄉" x="215" y="105">仁愛鄉</text>
-    <text class="region-label" data-town="埔里鎮" x="105" y="210">埔里鎮</text>
-    <text class="region-label" data-town="魚池鄉" x="218" y="238">魚池鄉</text>`;
+  const map = document.getElementById('map');
+  const cells = NANTOU_TOWNS.map((town, i) => {
+    const col = i % 4, row = Math.floor(i / 4);
+    const x = 8 + col * 72, y = 8 + row * 72, w = 66, h = 62;
+    return `<polygon class="region" data-town="${town}" points="${x},${y} ${x+w-5},${y+3} ${x+w},${y+h-6} ${x+5},${y+h}"/><text class="region-label" data-town="${town}" x="${x+w/2}" y="${y+h/2}" style="font-size:10px">${town}</text>`;
+  }).join('');
+  map.innerHTML = cells;
   mapReady = true;
 }
 
@@ -1763,14 +1780,18 @@ function renderQuestion(){
 
   // 依題目綁定的景點切換背景與縮圖（每題不同）
   const media = MEDIA[q.pic];
+  let mobileScenicBackground;
   if(media.type === 'photo'){
     const url = `url("${encodeURI(media.src)}")`;
     setBackground(url);
+    mobileScenicBackground = url;
     $('scenicArt').innerHTML = `<img src="${encodeURI(media.src)}" alt="${media.area}景點"><span class="scenic-note" aria-hidden="true">山城風景<br>好美 ♡</span>`;
   }else{
     setBackground(media.theme || 'linear-gradient(160deg,#bfe9ff,#eaf8ff)');
+    mobileScenicBackground = `url("data:image/svg+xml,${encodeURIComponent(media.art)}")`;
     $('scenicArt').innerHTML = media.art;
   }
+  document.querySelector('.map-panel').style.setProperty('--mobile-scenic-bg', mobileScenicBackground);
   $('scenicName').textContent = media.name;
   $('scenicArea').textContent = media.area;
   highlightRegion(media.area);
